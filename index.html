@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -175,7 +174,6 @@ textarea.form-input{resize:vertical;min-height:70px;line-height:1.5;}
 </div>
 
 <!-- EDITOR MODAL -->
-
 <div class="modal-overlay" id="editor-modal">
   <div class="modal">
     <div class="modal-header">
@@ -229,7 +227,6 @@ textarea.form-input{resize:vertical;min-height:70px;line-height:1.5;}
 </div>
 
 <!-- DOWNLOAD MODAL -->
-
 <div class="modal-overlay" id="download-modal">
   <div class="modal" style="max-width:520px">
     <div class="modal-header">
@@ -469,217 +466,222 @@ function addStepItem(step,num){
     <div class="step-item-top">
       <div class="step-num">${num}</div>
       <textarea class="step-input" rows="1" placeholder="Descrivi il passaggio...">${esc(step.text||'')}</textarea>
+      <button class="step-del" onclick="removeStep(this)">✕</button>
+    </div>
+    <div class="step-media-bar">${mediaBarHTML}</div>
+    ${previewHTML}`;
 
-```
-  <button class="step-del" onclick="removeStep(this)">✕</button>
-</div>
-<div class="step-media-bar">${mediaBarHTML}</div>
-${previewHTML}`;
-```
-
-const ta=div.querySelector(‘textarea’);
-ta.addEventListener(‘input’,()=>{ta.style.height=‘auto’;ta.style.height=ta.scrollHeight+‘px’;reNumSteps();});
-ta.addEventListener(‘keydown’,e=>{if(e.key===‘Enter’&&!e.shiftKey){e.preventDefault();addStep();}});
-list.appendChild(div);
-if(step.text){ta.style.height=‘auto’;ta.style.height=ta.scrollHeight+‘px’;}
+  const ta=div.querySelector('textarea');
+  ta.addEventListener('input',()=>{ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';reNumSteps();});
+  ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addStep();}});
+  list.appendChild(div);
+  if(step.text){ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';}
 }
 
 function addMediaToStep(btn,type){
-const bar=btn.closest(’.step-media-bar’);
-bar.innerHTML=` <span class="media-type-tag ${type}" data-type="${type}">${type==='img'?'🖼 Immagine':'▶️ Video'}</span> <div class="media-input-wrap"> <input class="media-input" type="text" placeholder="${type==='img'?'URL immagine (es: https://i.imgur.com/abc.jpg)':'URL YouTube (es: https://youtu.be/xxx)'}"> <button class="btn-media-del" onclick="removeMedia(this)">✕</button> </div>`;
-const input=bar.querySelector(’.media-input’);
-input.focus();
-if(type===‘img’){
-input.addEventListener(‘blur’,function(){
-const item=this.closest(’.step-item’);
-let prev=item.querySelector(’.media-preview-wrap’);
-if(this.value.trim()){
-if(!prev){prev=document.createElement(‘div’);prev.className=‘media-preview-wrap’;item.appendChild(prev);}
-prev.innerHTML=`<img src="${esc(this.value.trim())}" onerror="this.style.display='none'"><div class="media-hint">Anteprima</div>`;
-}
-});
-}
+  const bar=btn.closest('.step-media-bar');
+  bar.innerHTML=`
+    <span class="media-type-tag ${type}" data-type="${type}">${type==='img'?'🖼 Immagine':'▶️ Video'}</span>
+    <div class="media-input-wrap">
+      <input class="media-input" type="text" placeholder="${type==='img'?'URL immagine (es: https://i.imgur.com/abc.jpg)':'URL YouTube (es: https://youtu.be/xxx)'}">
+      <button class="btn-media-del" onclick="removeMedia(this)">✕</button>
+    </div>`;
+  const input=bar.querySelector('.media-input');
+  input.focus();
+  if(type==='img'){
+    input.addEventListener('blur',function(){
+      const item=this.closest('.step-item');
+      let prev=item.querySelector('.media-preview-wrap');
+      if(this.value.trim()){
+        if(!prev){prev=document.createElement('div');prev.className='media-preview-wrap';item.appendChild(prev);}
+        prev.innerHTML=`<img src="${esc(this.value.trim())}" onerror="this.style.display='none'"><div class="media-hint">Anteprima</div>`;
+      }
+    });
+  }
 }
 
 function removeMedia(btn){
-const item=btn.closest(’.step-item’);
-const bar=item.querySelector(’.step-media-bar’);
-const prev=item.querySelector(’.media-preview-wrap’);
-if(prev)prev.remove();
-bar.innerHTML=` <button class="btn-add-media" onclick="addMediaToStep(this,'img')">🖼 Immagine</button> <button class="btn-add-media" onclick="addMediaToStep(this,'vid')">▶️ Video</button>`;
+  const item=btn.closest('.step-item');
+  const bar=item.querySelector('.step-media-bar');
+  const prev=item.querySelector('.media-preview-wrap');
+  if(prev)prev.remove();
+  bar.innerHTML=`
+    <button class="btn-add-media" onclick="addMediaToStep(this,'img')">🖼 Immagine</button>
+    <button class="btn-add-media" onclick="addMediaToStep(this,'vid')">▶️ Video</button>`;
 }
 
-function removeStep(btn){btn.closest(’.step-item’).remove();reNumSteps();}
-function reNumSteps(){document.querySelectorAll(’#steps-list .step-num’).forEach((el,i)=>el.textContent=i+1);}
+function removeStep(btn){btn.closest('.step-item').remove();reNumSteps();}
+function reNumSteps(){document.querySelectorAll('#steps-list .step-num').forEach((el,i)=>el.textContent=i+1);}
 
 function renderEmojiRow(){
-document.getElementById(‘emoji-row’).innerHTML=EMOJIS.map(e=>
-`<button class="emoji-opt ${e===selectedEmoji?'selected':''}" onclick="selectEmoji('${e}')">${e}</button>`
-).join(’’);
+  document.getElementById('emoji-row').innerHTML=EMOJIS.map(e=>
+    `<button class="emoji-opt ${e===selectedEmoji?'selected':''}" onclick="selectEmoji('${e}')">${e}</button>`
+  ).join('');
 }
 function selectEmoji(e){selectedEmoji=e;renderEmojiRow();}
 
 function deleteCurrentProc(){
-if(!editingId||!confirm(‘Eliminare questa procedura?’))return;
-procedures=procedures.filter(p=>p.id!==editingId);
-save();closeModal(‘editor-modal’);renderGrid();
-showToast(‘🗑 Procedura eliminata’);
+  if(!editingId||!confirm('Eliminare questa procedura?'))return;
+  procedures=procedures.filter(p=>p.id!==editingId);
+  save();closeModal('editor-modal');renderGrid();
+  showToast('🗑 Procedura eliminata');
 }
 
 // ── FILE GENERATOR ──
 function generateAndDownload(proc){
-const html=buildProcHTML(proc);
-const blob=new Blob([html],{type:‘text/html;charset=utf-8’});
-const url=URL.createObjectURL(blob);
-const a=document.createElement(‘a’);
-a.href=url;a.download=proc.filename;
-document.body.appendChild(a);a.click();
-document.body.removeChild(a);
-setTimeout(()=>URL.revokeObjectURL(url),1000);
-const fullLink=GITHUB_BASE+proc.filename;
-pendingDownloadLink=fullLink;
-document.getElementById(‘dl-filename’).textContent=proc.filename;
-document.getElementById(‘dl-link’).textContent=fullLink;
-document.getElementById(‘btn-copy-link’).textContent=‘📋 Copia link’;
-document.getElementById(‘btn-copy-link’).classList.remove(‘copied’);
-openModal(‘download-modal’);
+  const html=buildProcHTML(proc);
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=proc.filename;
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  const fullLink=GITHUB_BASE+proc.filename;
+  pendingDownloadLink=fullLink;
+  document.getElementById('dl-filename').textContent=proc.filename;
+  document.getElementById('dl-link').textContent=fullLink;
+  document.getElementById('btn-copy-link').textContent='📋 Copia link';
+  document.getElementById('btn-copy-link').classList.remove('copied');
+  openModal('download-modal');
 }
 
 function copyDlLink(){
-navigator.clipboard.writeText(pendingDownloadLink).catch(()=>fallbackCopy(pendingDownloadLink));
-const btn=document.getElementById(‘btn-copy-link’);
-btn.textContent=‘✓ Copiato!’;btn.classList.add(‘copied’);
-setTimeout(()=>{btn.textContent=‘📋 Copia link’;btn.classList.remove(‘copied’);},2000);
+  navigator.clipboard.writeText(pendingDownloadLink).catch(()=>fallbackCopy(pendingDownloadLink));
+  const btn=document.getElementById('btn-copy-link');
+  btn.textContent='✓ Copiato!';btn.classList.add('copied');
+  setTimeout(()=>{btn.textContent='📋 Copia link';btn.classList.remove('copied');},2000);
 }
 
 function buildProcHTML(p){
-const steps=p.steps||[];
+  const steps=p.steps||[];
 
-function mediaHTML(step){
-if(!step||!step.media||!step.media.url)return’’;
-const url=step.media.url;
-if(step.media.type===‘img’){
-return`<div class="step-media"><img src="${esc(url)}" alt="" loading="lazy" onerror="this.closest('.step-media').style.display='none'"></div>`;
-}
-if(step.media.type===‘vid’){
-let embedUrl=url;
-const yt=url.match(/(?:youtu.be/|youtube.com/(?:watch?v=|embed/))([a-zA-Z0-9_-]{11})/);
-if(yt)embedUrl=‘https://www.youtube.com/embed/’+yt[1];
-return`<div class="step-media"><iframe src="${esc(embedUrl)}" frameborder="0" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe></div>`;
-}
-return’’;
+  function mediaHTML(step){
+    if(!step||!step.media||!step.media.url)return'';
+    const url=step.media.url;
+    if(step.media.type==='img'){
+      return`<div class="step-media"><img src="${esc(url)}" alt="" loading="lazy" onerror="this.closest('.step-media').style.display='none'"></div>`;
+    }
+    if(step.media.type==='vid'){
+      let embedUrl=url;
+      const yt=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/);
+      if(yt)embedUrl='https://www.youtube.com/embed/'+yt[1];
+      return`<div class="step-media"><iframe src="${esc(embedUrl)}" frameborder="0" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe></div>`;
+    }
+    return'';
+  }
+
+  const stepsHTML=steps.map((s,i)=>`
+    <div class="step-row" onclick="toggle(${i})" id="s${i}">
+      <div class="step-circle"><span>${i+1}</span></div>
+      <div class="step-body">
+        <div class="step-text">${esc(s.text||s)}</div>
+        ${mediaHTML(s)}
+      </div>
+    </div>`).join('');
+
+  const css = [
+    ':root{--bg:#f5f4f0;--surface:#fff;--border:#e2ddd8;--text:#1a1714;--text2:#6b6560;--text3:#a09890;--accent:#c8392b;--green:#2a7a4b;--green-light:#edf7f2;}',
+    '*{box-sizing:border-box;margin:0;padding:0;}',
+    'body{font-family:\'DM Sans\',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}',
+    'header{background:var(--text);padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;}',
+    '.logo{display:flex;align-items:center;gap:10px;}',
+    '.logo-mark{width:26px;height:26px;background:var(--accent);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:\'DM Mono\',monospace;}',
+    '.logo-text{font-size:13px;font-weight:500;color:#fff;}',
+    '.back-btn{font-size:12px;color:#666;background:none;border:none;cursor:pointer;font-family:\'DM Sans\',sans-serif;}',
+    '.back-btn:hover{color:#fff;}',
+    '.container{max-width:660px;margin:0 auto;padding:36px 24px 80px;}',
+    '.proc-icon-big{font-size:44px;margin-bottom:12px;display:block;}',
+    '.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;}',
+    '.badge.attiva{background:var(--green-light);color:var(--green);}',
+    '.badge.bozza{background:#f0ede8;color:var(--text3);}',
+    '.proc-title{font-size:28px;font-weight:600;letter-spacing:-.5px;line-height:1.2;margin-bottom:6px;}',
+    '.proc-cat{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;font-family:\'DM Mono\',monospace;}',
+    '.proc-desc{font-size:15px;color:var(--text2);line-height:1.6;}',
+    '.divider{height:1px;background:var(--border);margin:24px 0;}',
+    '.section-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;}',
+    '.prog-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;}',
+    '.prog-label span:last-child{font-weight:600;font-family:\'DM Mono\',monospace;color:var(--green);}',
+    '.prog-bg{height:6px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:24px;}',
+    '.prog-fill{height:100%;background:var(--green);border-radius:99px;transition:width .3s ease;}',
+    '.step-row{display:flex;gap:14px;margin-bottom:10px;cursor:pointer;user-select:none;}',
+    '.step-circle{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text3);flex-shrink:0;transition:all .2s;font-family:\'DM Mono\',monospace;margin-top:2px;}',
+    '.step-row.done .step-circle{background:var(--green);border-color:var(--green);color:#fff;}',
+    '.step-row.done .step-circle::after{content:\'\\2713\';}',
+    '.step-row.done .step-circle span{display:none;}',
+    '.step-body{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 16px;flex:1;transition:all .15s;}',
+    '.step-row:hover .step-body{border-color:#c8b8b0;}',
+    '.step-row.done .step-body{background:var(--green-light);border-color:#b8dfc9;}',
+    '.step-text{font-size:15px;line-height:1.5;}',
+    '.step-row.done .step-text{color:var(--text2);text-decoration:line-through;text-decoration-color:#a0c8b0;}',
+    '.step-media{margin-top:10px;}',
+    '.step-media img{max-width:100%;border-radius:8px;border:1px solid var(--border);display:block;}',
+    '.step-media iframe{width:100%;aspect-ratio:16/9;border-radius:8px;border:none;display:block;}',
+    '.complete{background:var(--green);color:#fff;border-radius:14px;padding:20px 24px;text-align:center;margin-top:24px;display:none;}',
+    '.ci{font-size:30px;margin-bottom:8px;}.ct{font-size:17px;font-weight:600;margin-bottom:4px;}.cs{font-size:13px;opacity:.8;}',
+    '.btn-reset{margin-top:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;padding:7px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:\'DM Sans\',sans-serif;}',
+    '.notes{background:#fff8e8;border:1px solid #f0e0a0;border-radius:12px;padding:15px 17px;margin-top:24px;}',
+    '.notes-label{font-size:11px;font-weight:600;color:#a08030;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}',
+    '.notes-text{font-size:14px;color:#806020;line-height:1.6;}'
+  ].join('\n');
+
+  const js = [
+    'var done=new Set(),total=' + steps.length + ';',
+    'function update(){',
+    '  var pct=total?Math.round(done.size/total*100):0;',
+    '  var bar=document.getElementById("bar"),lbl=document.getElementById("pct"),banner=document.getElementById("done-banner");',
+    '  if(bar)bar.style.width=pct+"%";',
+    '  if(lbl)lbl.textContent=done.size+"/"+total+" ("+pct+"%)";',
+    '  if(banner)banner.style.display=(done.size===total&&total>0)?"block":"none";',
+    '  for(var i=0;i<total;i++){var el=document.getElementById("s"+i);if(el)el.className="step-row"+(done.has(i)?" done":"");}',
+    '}',
+    'function toggle(i){if(done.has(i))done.delete(i);else done.add(i);update();}',
+    'function resetAll(){done.clear();update();}'
+  ].join('\n');
+
+  const stepsBlock = steps.length > 0
+    ? '<div class="divider"></div>'
+      + '<div class="prog-label"><span>Avanzamento</span><span id="pct">0/' + steps.length + ' (0%)</span></div>'
+      + '<div class="prog-bg"><div class="prog-fill" id="bar" style="width:0%"></div></div>'
+      + '<div class="section-label">Passaggi</div>'
+      + stepsHTML
+      + '<div class="complete" id="done-banner"><div class="ci">&#127881;</div><div class="ct">Procedura completata!</div><div class="cs">Tutti i passaggi eseguiti.</div><button class="btn-reset" onclick="resetAll()">&#8635; Ricomincia</button></div>'
+    : '<p style="color:var(--text3);font-size:14px;margin-top:24px">Nessun passaggio definito.</p>';
+
+  return '<!DOCTYPE html>\n'
+    + '<html lang="it">\n<head>\n'
+    + '<meta charset="UTF-8">\n'
+    + '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+    + '<title>' + esc(p.name) + ' \u2014 Big Ben</title>\n'
+    + '<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">\n'
+    + '<style>\n' + css + '\n</style>\n'
+    + '</head>\n<body>\n'
+    + '<header><div class="logo"><div class="logo-mark">BB</div><div class="logo-text">Big Ben</div></div>'
+    + '<button class="back-btn" onclick="history.back()">&#8592; Indietro</button></header>\n'
+    + '<div class="container">\n'
+    + '<span class="proc-icon-big">' + (p.icon||'📋') + '</span>\n'
+    + '<div class="badge ' + p.status + '">' + (p.status==='attiva'?'&#9679; Attiva':'&#9679; Bozza') + '</div>\n'
+    + '<h1 class="proc-title">' + esc(p.name) + '</h1>\n'
+    + '<div class="proc-cat">' + esc(p.category||'Generale') + '</div>\n'
+    + (p.description ? '<div class="proc-desc">' + esc(p.description) + '</div>\n' : '')
+    + stepsBlock + '\n'
+    + (p.notes ? '<div class="notes"><div class="notes-label">&#9888;&#65039; Note</div><div class="notes-text">' + esc(p.notes) + '</div></div>\n' : '')
+    + '</div>\n'
+    + '<script>\n' + js + '\n<\/script>\n'
+    + '</body>\n</html>';
 }
 
-const stepsHTML=steps.map((s,i)=>` <div class="step-row" onclick="toggle(${i})" id="s${i}"> <div class="step-circle"><span>${i+1}</span></div> <div class="step-body"> <div class="step-text">${esc(s.text||s)}</div> ${mediaHTML(s)} </div> </div>`).join(’’);
-
-return`<!DOCTYPE html>
-
-<html lang="it">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${esc(p.name)} — Big Ben</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#f5f4f0;--surface:#fff;--border:#e2ddd8;--text:#1a1714;--text2:#6b6560;--text3:#a09890;--accent:#c8392b;--green:#2a7a4b;--green-light:#edf7f2;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-header{background:var(--text);padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;}
-.logo{display:flex;align-items:center;gap:10px;}
-.logo-mark{width:26px;height:26px;background:var(--accent);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:'DM Mono',monospace;}
-.logo-text{font-size:13px;font-weight:500;color:#fff;}
-.back-btn{font-size:12px;color:#666;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.back-btn:hover{color:#fff;}
-.container{max-width:660px;margin:0 auto;padding:36px 24px 80px;}
-.proc-icon-big{font-size:44px;margin-bottom:12px;display:block;}
-.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;}
-.badge.attiva{background:var(--green-light);color:var(--green);}
-.badge.bozza{background:#f0ede8;color:var(--text3);}
-.proc-title{font-size:28px;font-weight:600;letter-spacing:-.5px;line-height:1.2;margin-bottom:6px;}
-.proc-cat{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;font-family:'DM Mono',monospace;}
-.proc-desc{font-size:15px;color:var(--text2);line-height:1.6;}
-.divider{height:1px;background:var(--border);margin:24px 0;}
-.section-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;}
-.prog-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;}
-.prog-label span:last-child{font-weight:600;font-family:'DM Mono',monospace;color:var(--green);}
-.prog-bg{height:6px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:24px;}
-.prog-fill{height:100%;background:var(--green);border-radius:99px;transition:width .3s ease;}
-.step-row{display:flex;gap:14px;margin-bottom:10px;cursor:pointer;user-select:none;}
-.step-circle{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text3);flex-shrink:0;transition:all .2s;font-family:'DM Mono',monospace;margin-top:2px;}
-.step-row.done .step-circle{background:var(--green);border-color:var(--green);color:#fff;}
-.step-row.done .step-circle::after{content:'✓';}
-.step-row.done .step-circle span{display:none;}
-.step-body{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 16px;flex:1;transition:all .15s;}
-.step-row:hover .step-body{border-color:#c8b8b0;}
-.step-row.done .step-body{background:var(--green-light);border-color:#b8dfc9;}
-.step-text{font-size:15px;line-height:1.5;}
-.step-row.done .step-text{color:var(--text2);text-decoration:line-through;text-decoration-color:#a0c8b0;}
-.step-media{margin-top:10px;}
-.step-media img{max-width:100%;border-radius:8px;border:1px solid var(--border);display:block;}
-.step-media iframe{width:100%;aspect-ratio:16/9;border-radius:8px;border:none;display:block;}
-.complete{background:var(--green);color:#fff;border-radius:14px;padding:20px 24px;text-align:center;margin-top:24px;display:none;}
-.ci{font-size:30px;margin-bottom:8px;}
-.ct{font-size:17px;font-weight:600;margin-bottom:4px;}
-.cs{font-size:13px;opacity:.8;}
-.btn-reset{margin-top:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;padding:7px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.notes{background:#fff8e8;border:1px solid #f0e0a0;border-radius:12px;padding:15px 17px;margin-top:24px;}
-.notes-label{font-size:11px;font-weight:600;color:#a08030;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
-.notes-text{font-size:14px;color:#806020;line-height:1.6;}
-</style>
-</head>
-<body>
-<header>
-  <div class="logo"><div class="logo-mark">BB</div><div class="logo-text">Big Ben</div></div>
-  <button class="back-btn" onclick="history.back()">← Indietro</button>
-</header>
-<div class="container">
-  <span class="proc-icon-big">${p.icon||'📋'}</span>
-  <div class="badge ${p.status}">${p.status==='attiva'?'● Attiva':'● Bozza'}</div>
-  <h1 class="proc-title">${esc(p.name)}</h1>
-  <div class="proc-cat">${esc(p.category||'Generale')}</div>
-  ${p.description?`<div class="proc-desc">${esc(p.description)}</div>`:''}
-  ${steps.length>0?`
-  <div class="divider"></div>
-  <div class="prog-label"><span>Avanzamento</span><span id="pct">0/${steps.length} (0%)</span></div>
-  <div class="prog-bg"><div class="prog-fill" id="bar" style="width:0%"></div></div>
-  <div class="section-label">Passaggi</div>
-  ${stepsHTML}
-  <div class="complete" id="done-banner">
-    <div class="ci">🎉</div><div class="ct">Procedura completata!</div>
-    <div class="cs">Tutti i passaggi eseguiti.</div>
-    <button class="btn-reset" onclick="resetAll()">↺ Ricomincia</button>
-  </div>`:'<p style="color:var(--text3);font-size:14px;margin-top:24px">Nessun passaggio definito.</p>'}
-  ${p.notes?`<div class="notes"><div class="notes-label">⚠️ Note</div><div class="notes-text">${esc(p.notes)}</div></div>`:''}
-</div>
-<script>
-var done=new Set(),total=${steps.length};
-function update(){
-  var pct=total?Math.round(done.size/total*100):0;
-  var bar=document.getElementById('bar'),lbl=document.getElementById('pct'),banner=document.getElementById('done-banner');
-  if(bar)bar.style.width=pct+'%';
-  if(lbl)lbl.textContent=done.size+'/'+total+' ('+pct+'%)';
-  if(banner)banner.style.display=(done.size===total&&total>0)?'block':'none';
-  for(var i=0;i<total;i++){var el=document.getElementById('s'+i);if(el)el.className='step-row'+(done.has(i)?' done':'');}
-}
-function toggle(i){if(done.has(i))done.delete(i);else done.add(i);update();}
-function resetAll(){done.clear();update();}
-<\/script>
-</body>
-</html>`;
-}
-
-function openModal(id){document.getElementById(id).classList.add(‘open’);}
-function closeModal(id){document.getElementById(id).classList.remove(‘open’);}
-document.querySelectorAll(’.modal-overlay’).forEach(el=>{
-el.addEventListener(‘click’,e=>{if(e.target===el)closeModal(el.id);});
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(el=>{
+  el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id);});
 });
 
-function showToast(msg){const t=document.getElementById(‘toast’);t.textContent=msg;t.classList.add(‘show’);setTimeout(()=>t.classList.remove(‘show’),2400);}
-function esc(s){return String(s||’’).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/”/g,’"’).replace(/’/g,’'’);}
-function fallbackCopy(text){const t=document.createElement(‘textarea’);t.value=text;document.body.appendChild(t);t.select();document.execCommand(‘copy’);document.body.removeChild(t);}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function fallbackCopy(text){const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);}
 
 load();renderGrid();
 </script>
-
 </body>
 </html>
