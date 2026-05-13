@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Ben — Gestione Procedure</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f5f4f0;--surface:#fff;--surface2:#f0ede8;--border:#e2ddd8;
+  --text:#1a1714;--text2:#6b6560;--text3:#a09890;
+  --accent:#c8392b;--accent-light:#fdf0ee;--accent-dark:#a02e22;
+  --green:#2a7a4b;--green-light:#edf7f2;--tag-bg:#ede9e3;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{background:var(--text);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:100;}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;font-family:'DM Mono',monospace;}
+.logo-text{font-size:14px;font-weight:500;color:#fff;}
+.logo-sub{font-size:11px;color:#888;font-family:'DM Mono',monospace;margin-top:1px;}
+.btn-new{background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;display:flex;align-items:center;gap:6px;}
+.btn-new:hover{background:var(--accent-dark);}
+.layout{display:flex;min-height:calc(100vh - 58px);}
+aside{width:240px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);padding:24px 0;overflow-y:auto;position:sticky;top:58px;height:calc(100vh - 58px);}
+.sidebar-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;padding:0 20px;margin-bottom:6px;margin-top:2px;}
+.sidebar-item{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;cursor:pointer;transition:background .1s;font-size:13px;color:var(--text2);gap:8px;}
+.sidebar-item:hover{background:var(--surface2);color:var(--text);}
+.sidebar-item.active{background:var(--accent-light);color:var(--accent);font-weight:500;}
+.sidebar-item .item-icon{font-size:15px;flex-shrink:0;}
+.sidebar-item .item-label{flex:1;}
+.sidebar-count{font-size:11px;background:var(--tag-bg);color:var(--text3);padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;}
+.sidebar-divider{height:1px;background:var(--border);margin:12px 20px;}
+main{flex:1;padding:32px 40px;max-width:900px;}
+.page-title{font-size:22px;font-weight:600;margin-bottom:4px;}
+.page-sub{font-size:13px;color:var(--text2);margin-bottom:28px;}
+.search-row{display:flex;gap:10px;margin-bottom:24px;}
+.search-wrap{position:relative;flex:1;}
+.search-wrap input{width:100%;padding:10px 14px 10px 38px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s;}
+.search-wrap input:focus{border-color:var(--accent);}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.4;}
+select{padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text2);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;}
+.proc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.proc-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;cursor:pointer;transition:all .15s;}
+.proc-card:hover{border-color:#c8b8b0;box-shadow:0 4px 16px rgba(0,0,0,.06);transform:translateY(-1px);}
+.proc-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.proc-icon{font-size:22px;}
+.proc-status{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;}
+.proc-status.attiva{background:var(--green-light);color:var(--green);}
+.proc-status.bozza{background:var(--tag-bg);color:var(--text3);}
+.proc-name{font-size:15px;font-weight:600;margin-bottom:4px;line-height:1.3;}
+.proc-cat{font-size:11px;color:var(--text3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
+.proc-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.proc-footer{display:flex;align-items:center;justify-content:space-between;}
+.proc-steps{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+.proc-actions{display:flex;gap:6px;}
+.btn-sm{padding:5px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .12s;}
+.btn-edit{background:var(--tag-bg);color:var(--text2);}
+.btn-edit:hover{background:var(--border);color:var(--text);}
+.btn-download{background:var(--accent-light);color:var(--accent);}
+.btn-download:hover{background:#f5d8d5;}
+.empty-state{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3);}
+.empty-state .empty-icon{font-size:48px;margin-bottom:12px;}
+.empty-state p{font-size:14px;line-height:1.8;}
+.modal-overlay{position:fixed;inset:0;background:rgba(20,16,12,.55);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .2s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border-radius:18px;width:100%;max-width:660px;max-height:90vh;overflow-y:auto;transform:translateY(12px);transition:transform .2s;box-shadow:0 24px 60px rgba(0,0,0,.18);}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal-header{padding:24px 28px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);border-radius:18px 18px 0 0;z-index:1;}
+.modal-title{font-size:17px;font-weight:600;}
+.modal-close{background:var(--surface2);border:none;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:var(--border);}
+.modal-body{padding:24px 28px;}
+.modal-footer{padding:16px 28px 24px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--border);flex-wrap:wrap;}
+.form-group{margin-bottom:18px;}
+.form-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:.5px;}
+.form-input{width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s;}
+.form-input:focus{border-color:var(--accent);background:#fff;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+textarea.form-input{resize:vertical;min-height:70px;line-height:1.5;}
+/* STEPS */
+.steps-list{margin-bottom:10px;}
+.step-item{margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.step-item-top{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;}
+.step-num{width:22px;height:22px;background:var(--text);color:#fff;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;font-family:'DM Mono',monospace;}
+.step-input{flex:1;border:none;background:transparent;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;resize:none;line-height:1.5;min-height:22px;}
+.step-del{background:none;border:none;cursor:pointer;color:var(--text3);font-size:15px;padding:0 2px;flex-shrink:0;}
+.step-del:hover{color:var(--accent);}
+.step-media-bar{padding:0 12px 10px 44px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.btn-add-media{font-size:11px;padding:3px 10px;border-radius:6px;border:1px dashed var(--border);background:transparent;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s;}
+.btn-add-media:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+.media-input-wrap{display:flex;gap:6px;align-items:center;flex:1;min-width:180px;}
+.media-input{flex:1;font-size:12px;padding:5px 10px;border:1px solid var(--border);border-radius:7px;background:#fff;color:var(--text);font-family:'DM Mono',monospace;outline:none;}
+.media-input:focus{border-color:var(--accent);}
+.media-type-tag{font-size:10px;padding:3px 8px;border-radius:5px;font-weight:600;flex-shrink:0;}
+.media-type-tag.img{background:#e8f4ff;color:#2563eb;}
+.media-type-tag.vid{background:#fef3e8;color:#d97706;}
+.btn-media-del{background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;flex-shrink:0;}
+.btn-media-del:hover{color:var(--accent);}
+.media-preview-wrap{padding:0 12px 10px 44px;}
+.media-preview-wrap img{max-width:100%;max-height:130px;border-radius:8px;border:1px solid var(--border);display:block;}
+.media-hint{font-size:10px;color:var(--text3);margin-top:4px;}
+.btn-add-step{width:100%;padding:9px;border:1.5px dashed var(--border);border-radius:10px;background:transparent;color:var(--text3);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.btn-add-step:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+.emoji-row{display:flex;gap:8px;flex-wrap:wrap;}
+.emoji-opt{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .1s;}
+.emoji-opt:hover{border-color:var(--accent);background:var(--accent-light);}
+.emoji-opt.selected{border-color:var(--accent);background:var(--accent-light);}
+.btn-primary{background:var(--text);color:#fff;padding:9px 20px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-primary:hover{background:#333;}
+.btn-secondary{background:var(--surface2);color:var(--text2);border:1px solid var(--border);padding:9px 20px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-secondary:hover{background:var(--border);}
+.btn-danger{background:#fee2e2;color:var(--accent);padding:9px 20px;border-radius:9px;border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-danger:hover{background:#fecaca;}
+.download-box{background:var(--green-light);border:1px solid #b8dfc9;border-radius:12px;padding:20px;text-align:center;margin-bottom:20px;}
+.download-filename{font-family:'DM Mono',monospace;font-size:13px;color:var(--green);background:#fff;border:1px solid #b8dfc9;border-radius:8px;padding:8px 14px;margin:10px 0;display:inline-block;}
+.download-steps{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px;}
+.download-step{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.download-step:last-child{border-bottom:none;}
+.ds-num{width:20px;height:20px;background:var(--accent);color:#fff;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Mono',monospace;margin-top:1px;}
+.ds-text{color:var(--text2);line-height:1.5;}
+.ds-text strong{color:var(--text);display:block;margin-bottom:2px;}
+.link-preview{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-top:12px;word-break:break-all;}
+.btn-copy-link{background:var(--accent);color:#fff;border:none;padding:9px 20px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;flex:1;transition:background .15s;}
+.btn-copy-link:hover{background:var(--accent-dark);}
+.btn-copy-link.copied{background:var(--green);}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--text);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;opacity:0;transition:all .2s;z-index:999;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+@media(max-width:700px){aside{display:none;}main{padding:20px;}header{padding:0 20px;}.form-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">BB</div>
+    <div><div class="logo-text">Big Ben</div><div class="logo-sub">Gestione Procedure</div></div>
+  </div>
+  <button class="btn-new" onclick="openNewModal()">+ Nuova Procedura</button>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="sidebar-label">Filtri</div>
+    <div class="sidebar-item active" onclick="filterCat('tutti')" id="cat-tutti">
+      <span class="item-icon">📋</span><span class="item-label">Tutte</span><span class="sidebar-count" id="count-tutti">0</span>
+    </div>
+    <div class="sidebar-item" onclick="filterCat('attive')" id="cat-attive">
+      <span class="item-icon">✅</span><span class="item-label">Attive</span><span class="sidebar-count" id="count-attive">0</span>
+    </div>
+    <div class="sidebar-item" onclick="filterCat('bozze')" id="cat-bozze">
+      <span class="item-icon">✏️</span><span class="item-label">Bozze</span><span class="sidebar-count" id="count-bozze">0</span>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-label">Categoria</div>
+    <div id="sidebar-cats"></div>
+  </aside>
+
+  <main>
+    <div class="page-title">Procedure Operative</div>
+    <div class="page-sub">Crea le procedure, scarica il file HTML e caricalo su GitHub — ogni procedura ha il suo link diretto.</div>
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Cerca procedura..." oninput="renderGrid()">
+      </div>
+      <select id="sort-select" onchange="renderGrid()">
+        <option value="recent">Più recenti</option>
+        <option value="alpha">A → Z</option>
+        <option value="steps">Per passaggi</option>
+      </select>
+    </div>
+    <div class="proc-grid" id="proc-grid"></div>
+  </main>
+</div>
+
+<!-- EDITOR MODAL -->
+
+<div class="modal-overlay" id="editor-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="editor-title">Nuova Procedura</div>
+      <button class="modal-close" onclick="closeModal('editor-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nome procedura *</label>
+          <input type="text" class="form-input" id="f-name" placeholder="Es: Apertura cassa">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Categoria</label>
+          <input type="text" class="form-input" id="f-cat" placeholder="Es: Cassa, Macchine...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descrizione breve</label>
+        <textarea class="form-input" id="f-desc" placeholder="Cosa fa questa procedura..." rows="2"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Icona</label>
+          <div class="emoji-row" id="emoji-row"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Stato</label>
+          <select class="form-input" id="f-status">
+            <option value="attiva">Attiva</option>
+            <option value="bozza">Bozza</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Passaggi</label>
+        <div class="steps-list" id="steps-list"></div>
+        <button class="btn-add-step" onclick="addStep()">+ Aggiungi passaggio</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Note finali (opzionale)</label>
+        <textarea class="form-input" id="f-notes" placeholder="Avvertenze, eccezioni..." rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-danger" id="btn-delete-proc" onclick="deleteCurrentProc()" style="display:none">🗑 Elimina</button>
+      <button class="btn-secondary" onclick="saveProc('bozza')">Salva bozza</button>
+      <button class="btn-primary" onclick="saveAndDownload()">Pubblica e scarica →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DOWNLOAD MODAL -->
+
+<div class="modal-overlay" id="download-modal">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title">📥 File scaricato!</div>
+      <button class="modal-close" onclick="closeModal('download-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="download-box">
+        <div style="font-size:36px;margin-bottom:6px">✅</div>
+        <div style="font-size:14px;font-weight:600;color:var(--green)">Procedura pronta</div>
+        <div class="download-filename" id="dl-filename">—</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px">Caricala su GitHub per renderla accessibile</div>
+      </div>
+      <div class="download-steps">
+        <div class="download-step">
+          <div class="ds-num">1</div>
+          <div class="ds-text"><strong>Vai su github.com/kevodable/Big-Ben---Procedure</strong>Clicca Add file → Upload files</div>
+        </div>
+        <div class="download-step">
+          <div class="ds-num">2</div>
+          <div class="ds-text"><strong>Trascina il file scaricato</strong>Clicca Commit changes</div>
+        </div>
+        <div class="download-step">
+          <div class="ds-num">3</div>
+          <div class="ds-text"><strong>Copia il link qui sotto e incollalo nel gestionale</strong>Attivo dopo 1-2 minuti</div>
+        </div>
+      </div>
+      <div class="link-preview" id="dl-link">—</div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn-copy-link" id="btn-copy-link" onclick="copyDlLink()">📋 Copia link</button>
+        <a href="https://github.com/kevodable/Big-Ben---Procedure" target="_blank">
+          <button class="btn-secondary">Vai su GitHub →</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = 'bigben_procedures';
+const GITHUB_BASE = 'https://kevodable.github.io/Big-Ben---Procedure/';
+const EMOJIS = ['📋','🔧','💰','🎮','🔑','🧹','⚡','🚗','🎯','📦','🔒','📞','🛠','💡','📊','🎪'];
+let procedures=[], editingId=null, currentFilter='tutti', selectedEmoji='📋', pendingDownloadLink='';
+
+function load(){try{procedures=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');}catch(e){procedures=[];}}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(procedures));}
+
+function renderGrid(){
+  const q=document.getElementById('search-input').value.toLowerCase();
+  const sort=document.getElementById('sort-select').value;
+  let list=procedures.filter(p=>{
+    if(currentFilter==='attive')return p.status==='attiva';
+    if(currentFilter==='bozze')return p.status==='bozza';
+    if(currentFilter!=='tutti')return p.category===currentFilter;
+    return true;
+  });
+  if(q)list=list.filter(p=>p.name.toLowerCase().includes(q)||(p.description||'').toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q));
+  if(sort==='alpha')list.sort((a,b)=>a.name.localeCompare(b.name));
+  else if(sort==='steps')list.sort((a,b)=>(b.steps||[]).length-(a.steps||[]).length);
+  else list.sort((a,b)=>b.updatedAt-a.updatedAt);
+  const grid=document.getElementById('proc-grid');
+  grid.innerHTML=list.length===0
+    ?`<div class="empty-state"><div class="empty-icon">📭</div><p>Nessuna procedura.<br>Clicca <strong>"+ Nuova Procedura"</strong> per iniziare.</p></div>`
+    :list.map(cardHTML).join('');
+  document.getElementById('count-tutti').textContent=procedures.length;
+  document.getElementById('count-attive').textContent=procedures.filter(p=>p.status==='attiva').length;
+  document.getElementById('count-bozze').textContent=procedures.filter(p=>p.status==='bozza').length;
+  const cats=[...new Set(procedures.map(p=>p.category).filter(Boolean))];
+  const icons={'Cassa':'💰','Macchine':'🎮','Sicurezza':'🔒','Pulizie':'🧹','Apertura':'🔑','Chiusura':'🌙','Kartodrome':'🚗'};
+  document.getElementById('sidebar-cats').innerHTML=cats.map(c=>`
+    <div class="sidebar-item" onclick="filterCat('${esc(c)}')" id="cat-${esc(c)}">
+      <span class="item-icon">${icons[c]||'📁'}</span><span class="item-label">${esc(c)}</span>
+      <span class="sidebar-count">${procedures.filter(p=>p.category===c).length}</span>
+    </div>`).join('');
+}
+
+function cardHTML(p){
+  const steps=p.steps||[];
+  const mediaCount=steps.filter(s=>s&&s.media&&s.media.url).length;
+  return `
+  <div class="proc-card" onclick="openEditModal('${p.id}')">
+    <div class="proc-card-top">
+      <span class="proc-icon">${p.icon||'📋'}</span>
+      <span class="proc-status ${p.status}">${p.status==='attiva'?'Attiva':'Bozza'}</span>
+    </div>
+    <div class="proc-name">${esc(p.name)}</div>
+    <div class="proc-cat">${esc(p.category||'Generale')}</div>
+    <div class="proc-desc">${esc(p.description||'')}</div>
+    <div class="proc-footer">
+      <span class="proc-steps">${steps.length} passaggi${mediaCount>0?' · '+mediaCount+' media':''}</span>
+      <div class="proc-actions" onclick="event.stopPropagation()">
+        ${p.filename?`<button class="btn-sm btn-download" onclick="redownload('${p.id}')">↓ Riscarica</button>`:''}
+        <button class="btn-sm btn-edit" onclick="openEditModal('${p.id}')">Modifica</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function filterCat(cat){
+  currentFilter=cat;
+  document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));
+  const el=document.getElementById('cat-'+cat);
+  if(el)el.classList.add('active');
+  renderGrid();
+}
+
+function openNewModal(){
+  editingId=null;selectedEmoji='📋';
+  document.getElementById('editor-title').textContent='Nuova Procedura';
+  ['f-name','f-cat','f-desc','f-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-status').value='attiva';
+  document.getElementById('btn-delete-proc').style.display='none';
+  renderEmojiRow();renderSteps([]);
+  openModal('editor-modal');
+  setTimeout(()=>document.getElementById('f-name').focus(),200);
+}
+
+function openEditModal(id){
+  const p=procedures.find(x=>x.id===id);if(!p)return;
+  editingId=id;selectedEmoji=p.icon||'📋';
+  document.getElementById('editor-title').textContent='Modifica Procedura';
+  document.getElementById('f-name').value=p.name;
+  document.getElementById('f-cat').value=p.category||'';
+  document.getElementById('f-desc').value=p.description||'';
+  document.getElementById('f-notes').value=p.notes||'';
+  document.getElementById('f-status').value=p.status||'bozza';
+  document.getElementById('btn-delete-proc').style.display='inline-flex';
+  renderEmojiRow();renderSteps(p.steps||[]);
+  openModal('editor-modal');
+}
+
+function collectForm(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name){document.getElementById('f-name').focus();showToast('Inserisci il nome della procedura');return null;}
+  const steps=[];
+  document.querySelectorAll('.step-item').forEach(item=>{
+    const text=item.querySelector('.step-input').value.trim();
+    if(!text)return;
+    const mediaInput=item.querySelector('.media-input');
+    const mediaTag=item.querySelector('.media-type-tag');
+    const media=(mediaInput&&mediaInput.value.trim())
+      ?{url:mediaInput.value.trim(),type:mediaTag?mediaTag.dataset.type:'img'}
+      :null;
+    steps.push({text,media});
+  });
+  return{
+    name,
+    category:document.getElementById('f-cat').value.trim()||'Generale',
+    description:document.getElementById('f-desc').value.trim(),
+    notes:document.getElementById('f-notes').value.trim(),
+    icon:selectedEmoji,
+    steps,
+    status:document.getElementById('f-status').value,
+  };
+}
+
+function saveProc(status){
+  const data=collectForm();if(!data)return;
+  if(status)data.status=status;
+  upsert(data);save();closeModal('editor-modal');renderGrid();
+  showToast('💾 Bozza salvata');
+}
+
+function saveAndDownload(){
+  const data=collectForm();if(!data)return;
+  data.status='attiva';
+  const proc=upsert(data);save();closeModal('editor-modal');renderGrid();
+  generateAndDownload(proc);
+}
+
+function redownload(id){
+  const p=procedures.find(x=>x.id===id);
+  if(p)generateAndDownload(p);
+}
+
+function upsert(data){
+  const now=Date.now();
+  if(editingId){
+    const idx=procedures.findIndex(p=>p.id===editingId);
+    const filename=procedures[idx].filename||slugify(data.name)+'.html';
+    procedures[idx]={...procedures[idx],...data,filename,updatedAt:now};
+    return procedures[idx];
+  }else{
+    const filename=slugify(data.name)+'.html';
+    const proc={id:'proc_'+now+'_'+Math.random().toString(36).slice(2,7),...data,filename,createdAt:now,updatedAt:now};
+    procedures.unshift(proc);
+    return proc;
+  }
+}
+
+function slugify(name){
+  return name.toLowerCase()
+    .replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e').replace(/[ìíîï]/g,'i')
+    .replace(/[òóôõö]/g,'o').replace(/[ùúûü]/g,'u').replace(/[ñ]/g,'n')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+// ── STEPS EDITOR ──
+function renderSteps(steps){
+  const list=document.getElementById('steps-list');
+  list.innerHTML='';
+  if(steps.length===0){addStep();return;}
+  steps.forEach((s,i)=>addStepItem(typeof s==='string'?{text:s,media:null}:s,i+1));
+}
+
+function addStep(){
+  const list=document.getElementById('steps-list');
+  addStepItem({text:'',media:null},list.children.length+1);
+  const inputs=list.querySelectorAll('.step-input');
+  inputs[inputs.length-1].focus();
+}
+
+function addStepItem(step,num){
+  const list=document.getElementById('steps-list');
+  const div=document.createElement('div');
+  div.className='step-item';
+  const hasMedia=step.media&&step.media.url;
+  const mType=hasMedia?step.media.type:'';
+  const mUrl=hasMedia?step.media.url:'';
+
+  let mediaBarHTML=!hasMedia
+    ?`<button class="btn-add-media" onclick="addMediaToStep(this,'img')">🖼 Immagine</button>
+       <button class="btn-add-media" onclick="addMediaToStep(this,'vid')">▶️ Video</button>`
+    :`<span class="media-type-tag ${mType}" data-type="${mType}">${mType==='img'?'🖼 Immagine':'▶️ Video'}</span>
+      <div class="media-input-wrap">
+        <input class="media-input" type="text" placeholder="URL..." value="${esc(mUrl)}">
+        <button class="btn-media-del" onclick="removeMedia(this)">✕</button>
+      </div>`;
+
+  let previewHTML=hasMedia&&mType==='img'
+    ?`<div class="media-preview-wrap"><img src="${esc(mUrl)}" onerror="this.style.display='none'"><div class="media-hint">Anteprima — se non carica, controlla l'URL</div></div>`
+    :'';
+
+  div.innerHTML=`
+    <div class="step-item-top">
+      <div class="step-num">${num}</div>
+      <textarea class="step-input" rows="1" placeholder="Descrivi il passaggio...">${esc(step.text||'')}</textarea>
+
+```
+  <button class="step-del" onclick="removeStep(this)">✕</button>
+</div>
+<div class="step-media-bar">${mediaBarHTML}</div>
+${previewHTML}`;
+```
+
+const ta=div.querySelector(‘textarea’);
+ta.addEventListener(‘input’,()=>{ta.style.height=‘auto’;ta.style.height=ta.scrollHeight+‘px’;reNumSteps();});
+ta.addEventListener(‘keydown’,e=>{if(e.key===‘Enter’&&!e.shiftKey){e.preventDefault();addStep();}});
+list.appendChild(div);
+if(step.text){ta.style.height=‘auto’;ta.style.height=ta.scrollHeight+‘px’;}
+}
+
+function addMediaToStep(btn,type){
+const bar=btn.closest(’.step-media-bar’);
+bar.innerHTML=` <span class="media-type-tag ${type}" data-type="${type}">${type==='img'?'🖼 Immagine':'▶️ Video'}</span> <div class="media-input-wrap"> <input class="media-input" type="text" placeholder="${type==='img'?'URL immagine (es: https://i.imgur.com/abc.jpg)':'URL YouTube (es: https://youtu.be/xxx)'}"> <button class="btn-media-del" onclick="removeMedia(this)">✕</button> </div>`;
+const input=bar.querySelector(’.media-input’);
+input.focus();
+if(type===‘img’){
+input.addEventListener(‘blur’,function(){
+const item=this.closest(’.step-item’);
+let prev=item.querySelector(’.media-preview-wrap’);
+if(this.value.trim()){
+if(!prev){prev=document.createElement(‘div’);prev.className=‘media-preview-wrap’;item.appendChild(prev);}
+prev.innerHTML=`<img src="${esc(this.value.trim())}" onerror="this.style.display='none'"><div class="media-hint">Anteprima</div>`;
+}
+});
+}
+}
+
+function removeMedia(btn){
+const item=btn.closest(’.step-item’);
+const bar=item.querySelector(’.step-media-bar’);
+const prev=item.querySelector(’.media-preview-wrap’);
+if(prev)prev.remove();
+bar.innerHTML=` <button class="btn-add-media" onclick="addMediaToStep(this,'img')">🖼 Immagine</button> <button class="btn-add-media" onclick="addMediaToStep(this,'vid')">▶️ Video</button>`;
+}
+
+function removeStep(btn){btn.closest(’.step-item’).remove();reNumSteps();}
+function reNumSteps(){document.querySelectorAll(’#steps-list .step-num’).forEach((el,i)=>el.textContent=i+1);}
+
+function renderEmojiRow(){
+document.getElementById(‘emoji-row’).innerHTML=EMOJIS.map(e=>
+`<button class="emoji-opt ${e===selectedEmoji?'selected':''}" onclick="selectEmoji('${e}')">${e}</button>`
+).join(’’);
+}
+function selectEmoji(e){selectedEmoji=e;renderEmojiRow();}
+
+function deleteCurrentProc(){
+if(!editingId||!confirm(‘Eliminare questa procedura?’))return;
+procedures=procedures.filter(p=>p.id!==editingId);
+save();closeModal(‘editor-modal’);renderGrid();
+showToast(‘🗑 Procedura eliminata’);
+}
+
+// ── FILE GENERATOR ──
+function generateAndDownload(proc){
+const html=buildProcHTML(proc);
+const blob=new Blob([html],{type:‘text/html;charset=utf-8’});
+const url=URL.createObjectURL(blob);
+const a=document.createElement(‘a’);
+a.href=url;a.download=proc.filename;
+document.body.appendChild(a);a.click();
+document.body.removeChild(a);
+setTimeout(()=>URL.revokeObjectURL(url),1000);
+const fullLink=GITHUB_BASE+proc.filename;
+pendingDownloadLink=fullLink;
+document.getElementById(‘dl-filename’).textContent=proc.filename;
+document.getElementById(‘dl-link’).textContent=fullLink;
+document.getElementById(‘btn-copy-link’).textContent=‘📋 Copia link’;
+document.getElementById(‘btn-copy-link’).classList.remove(‘copied’);
+openModal(‘download-modal’);
+}
+
+function copyDlLink(){
+navigator.clipboard.writeText(pendingDownloadLink).catch(()=>fallbackCopy(pendingDownloadLink));
+const btn=document.getElementById(‘btn-copy-link’);
+btn.textContent=‘✓ Copiato!’;btn.classList.add(‘copied’);
+setTimeout(()=>{btn.textContent=‘📋 Copia link’;btn.classList.remove(‘copied’);},2000);
+}
+
+function buildProcHTML(p){
+const steps=p.steps||[];
+
+function mediaHTML(step){
+if(!step||!step.media||!step.media.url)return’’;
+const url=step.media.url;
+if(step.media.type===‘img’){
+return`<div class="step-media"><img src="${esc(url)}" alt="" loading="lazy" onerror="this.closest('.step-media').style.display='none'"></div>`;
+}
+if(step.media.type===‘vid’){
+let embedUrl=url;
+const yt=url.match(/(?:youtu.be/|youtube.com/(?:watch?v=|embed/))([a-zA-Z0-9_-]{11})/);
+if(yt)embedUrl=‘https://www.youtube.com/embed/’+yt[1];
+return`<div class="step-media"><iframe src="${esc(embedUrl)}" frameborder="0" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe></div>`;
+}
+return’’;
+}
+
+const stepsHTML=steps.map((s,i)=>` <div class="step-row" onclick="toggle(${i})" id="s${i}"> <div class="step-circle"><span>${i+1}</span></div> <div class="step-body"> <div class="step-text">${esc(s.text||s)}</div> ${mediaHTML(s)} </div> </div>`).join(’’);
+
+return`<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(p.name)} — Big Ben</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f4f0;--surface:#fff;--border:#e2ddd8;--text:#1a1714;--text2:#6b6560;--text3:#a09890;--accent:#c8392b;--green:#2a7a4b;--green-light:#edf7f2;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{background:var(--text);padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:26px;height:26px;background:var(--accent);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:'DM Mono',monospace;}
+.logo-text{font-size:13px;font-weight:500;color:#fff;}
+.back-btn{font-size:12px;color:#666;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.back-btn:hover{color:#fff;}
+.container{max-width:660px;margin:0 auto;padding:36px 24px 80px;}
+.proc-icon-big{font-size:44px;margin-bottom:12px;display:block;}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;}
+.badge.attiva{background:var(--green-light);color:var(--green);}
+.badge.bozza{background:#f0ede8;color:var(--text3);}
+.proc-title{font-size:28px;font-weight:600;letter-spacing:-.5px;line-height:1.2;margin-bottom:6px;}
+.proc-cat{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;font-family:'DM Mono',monospace;}
+.proc-desc{font-size:15px;color:var(--text2);line-height:1.6;}
+.divider{height:1px;background:var(--border);margin:24px 0;}
+.section-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;}
+.prog-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;}
+.prog-label span:last-child{font-weight:600;font-family:'DM Mono',monospace;color:var(--green);}
+.prog-bg{height:6px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:24px;}
+.prog-fill{height:100%;background:var(--green);border-radius:99px;transition:width .3s ease;}
+.step-row{display:flex;gap:14px;margin-bottom:10px;cursor:pointer;user-select:none;}
+.step-circle{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text3);flex-shrink:0;transition:all .2s;font-family:'DM Mono',monospace;margin-top:2px;}
+.step-row.done .step-circle{background:var(--green);border-color:var(--green);color:#fff;}
+.step-row.done .step-circle::after{content:'✓';}
+.step-row.done .step-circle span{display:none;}
+.step-body{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 16px;flex:1;transition:all .15s;}
+.step-row:hover .step-body{border-color:#c8b8b0;}
+.step-row.done .step-body{background:var(--green-light);border-color:#b8dfc9;}
+.step-text{font-size:15px;line-height:1.5;}
+.step-row.done .step-text{color:var(--text2);text-decoration:line-through;text-decoration-color:#a0c8b0;}
+.step-media{margin-top:10px;}
+.step-media img{max-width:100%;border-radius:8px;border:1px solid var(--border);display:block;}
+.step-media iframe{width:100%;aspect-ratio:16/9;border-radius:8px;border:none;display:block;}
+.complete{background:var(--green);color:#fff;border-radius:14px;padding:20px 24px;text-align:center;margin-top:24px;display:none;}
+.ci{font-size:30px;margin-bottom:8px;}
+.ct{font-size:17px;font-weight:600;margin-bottom:4px;}
+.cs{font-size:13px;opacity:.8;}
+.btn-reset{margin-top:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;padding:7px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.notes{background:#fff8e8;border:1px solid #f0e0a0;border-radius:12px;padding:15px 17px;margin-top:24px;}
+.notes-label{font-size:11px;font-weight:600;color:#a08030;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.notes-text{font-size:14px;color:#806020;line-height:1.6;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="logo-mark">BB</div><div class="logo-text">Big Ben</div></div>
+  <button class="back-btn" onclick="history.back()">← Indietro</button>
+</header>
+<div class="container">
+  <span class="proc-icon-big">${p.icon||'📋'}</span>
+  <div class="badge ${p.status}">${p.status==='attiva'?'● Attiva':'● Bozza'}</div>
+  <h1 class="proc-title">${esc(p.name)}</h1>
+  <div class="proc-cat">${esc(p.category||'Generale')}</div>
+  ${p.description?`<div class="proc-desc">${esc(p.description)}</div>`:''}
+  ${steps.length>0?`
+  <div class="divider"></div>
+  <div class="prog-label"><span>Avanzamento</span><span id="pct">0/${steps.length} (0%)</span></div>
+  <div class="prog-bg"><div class="prog-fill" id="bar" style="width:0%"></div></div>
+  <div class="section-label">Passaggi</div>
+  ${stepsHTML}
+  <div class="complete" id="done-banner">
+    <div class="ci">🎉</div><div class="ct">Procedura completata!</div>
+    <div class="cs">Tutti i passaggi eseguiti.</div>
+    <button class="btn-reset" onclick="resetAll()">↺ Ricomincia</button>
+  </div>`:'<p style="color:var(--text3);font-size:14px;margin-top:24px">Nessun passaggio definito.</p>'}
+  ${p.notes?`<div class="notes"><div class="notes-label">⚠️ Note</div><div class="notes-text">${esc(p.notes)}</div></div>`:''}
+</div>
+<script>
+var done=new Set(),total=${steps.length};
+function update(){
+  var pct=total?Math.round(done.size/total*100):0;
+  var bar=document.getElementById('bar'),lbl=document.getElementById('pct'),banner=document.getElementById('done-banner');
+  if(bar)bar.style.width=pct+'%';
+  if(lbl)lbl.textContent=done.size+'/'+total+' ('+pct+'%)';
+  if(banner)banner.style.display=(done.size===total&&total>0)?'block':'none';
+  for(var i=0;i<total;i++){var el=document.getElementById('s'+i);if(el)el.className='step-row'+(done.has(i)?' done':'');}
+}
+function toggle(i){if(done.has(i))done.delete(i);else done.add(i);update();}
+function resetAll(){done.clear();update();}
+<\/script>
+</body>
+</html>`;
+}
+
+function openModal(id){document.getElementById(id).classList.add(‘open’);}
+function closeModal(id){document.getElementById(id).classList.remove(‘open’);}
+document.querySelectorAll(’.modal-overlay’).forEach(el=>{
+el.addEventListener(‘click’,e=>{if(e.target===el)closeModal(el.id);});
+});
+
+function showToast(msg){const t=document.getElementById(‘toast’);t.textContent=msg;t.classList.add(‘show’);setTimeout(()=>t.classList.remove(‘show’),2400);}
+function esc(s){return String(s||’’).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/”/g,’"’).replace(/’/g,’'’);}
+function fallbackCopy(text){const t=document.createElement(‘textarea’);t.value=text;document.body.appendChild(t);t.select();document.execCommand(‘copy’);document.body.removeChild(t);}
+
+load();renderGrid();
+</script>
+
+</body>
+</html>
