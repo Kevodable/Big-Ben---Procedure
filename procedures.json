@@ -1,6 +1,22 @@
 {
   "groups": [
     {
+      "id": "grp_1778957026761_3nrel",
+      "name": "prova",
+      "icon": "📋",
+      "sections": [
+        {
+          "name": "prova",
+          "description": "prova",
+          "blocks": []
+        }
+      ],
+      "status": "attiva",
+      "filename": "prova.html",
+      "createdAt": 1778957026761,
+      "updatedAt": 1778957026761
+    },
+    {
       "id": "grp_1778928405023_2avp1",
       "name": "Apertura sala sopra",
       "category": "Aperture",
@@ -34,5 +50,5 @@
       "updatedAt": 1778957010179
     }
   ],
-  "updatedAt": 1778957010843
+  "updatedAt": 1778957027956
 }
