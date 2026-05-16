@@ -1,0 +1,38 @@
+{
+  "groups": [
+    {
+      "id": "grp_1778928405023_2avp1",
+      "name": "Apertura sala sopra",
+      "category": "Aperture",
+      "description": "",
+      "icon": "📋",
+      "status": "attiva",
+      "sections": [
+        {
+          "name": "Apertura sala sopra 9:00/14:00",
+          "description": "",
+          "blocks": [
+            {
+              "type": "testo",
+              "text": "Prova"
+            }
+          ]
+        },
+        {
+          "name": "Apertura esterna 9:00",
+          "description": "",
+          "blocks": []
+        },
+        {
+          "name": "Apertura interna 9:00",
+          "description": "",
+          "blocks": []
+        }
+      ],
+      "filename": "apertura-sala-sopra.html",
+      "createdAt": 1778928405023,
+      "updatedAt": 1778928405023
+    }
+  ],
+  "updatedAt": 1778928406632
+}
