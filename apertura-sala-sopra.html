@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apertura sala sopra — Big Ben</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f4f0;--s:#fff;--bd:#e2ddd8;--t:#1a1714;--t2:#6b6560;--t3:#a09890;--ac:#c8392b;--gr:#2a7a4b;--gl:#edf7f2;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;}
+header{background:var(--t);padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:10px;}
+.mark{width:26px;height:26px;background:var(--ac);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:'DM Mono',monospace;}
+.lt{font-size:13px;font-weight:500;color:#fff;}
+.back{font-size:12px;color:#888;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.back:hover{color:#fff;}
+.wrap{max-width:700px;margin:0 auto;padding:36px 22px 80px;}
+.gh{margin-bottom:26px;}
+.g-icon{font-size:44px;margin-bottom:10px;display:block;}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.badge.attiva{background:var(--gl);color:var(--gr);}
+.badge.bozza{background:#f0ede8;color:var(--t3);}
+.g-title{font-size:28px;font-weight:600;letter-spacing:-.5px;line-height:1.2;margin-bottom:5px;}
+.g-cat{font-size:12px;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;font-family:'DM Mono',monospace;}
+.g-desc{font-size:14px;color:var(--t2);line-height:1.6;}
+.toc{background:var(--s);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:30px;}
+.toc-lbl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.toc-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--t2);font-size:13px;transition:background .1s;}
+.toc-item:hover{background:var(--bg);color:var(--ac);}
+.toc-num{width:20px;height:20px;background:var(--t);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0;}
+.toc-label{font-weight:500;}
+.sec{margin-bottom:36px;}
+.sec-hd{display:flex;align-items:flex-start;gap:13px;margin-bottom:16px;padding-bottom:13px;border-bottom:2px solid var(--bd);}
+.sec-n{width:32px;height:32px;background:var(--ac);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0;margin-top:2px;}
+.sec-title{font-size:20px;font-weight:600;line-height:1.2;margin-bottom:3px;}
+.sec-desc{font-size:13px;color:var(--t2);}
+.sec-divider{height:1px;background:var(--bd);margin:32px 0;}
+.empty-sec{color:var(--t3);font-size:14px;font-style:italic;}
+.b-testo{font-size:15px;line-height:1.7;color:#3a3530;margin-bottom:16px;white-space:pre-wrap;}
+.b-pass{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;padding:13px 15px;background:var(--s);border:1px solid var(--bd);border-radius:11px;}
+.pass-n{width:26px;height:26px;background:#1a1714;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;font-family:'DM Mono',monospace;}
+.pass-t{font-size:15px;line-height:1.6;color:#1a1714;flex:1;white-space:pre-wrap;}
+.b-lista{margin-bottom:16px;list-style:none;padding:0;}
+.b-lista li{font-size:15px;line-height:1.6;color:#3a3530;padding:5px 0 5px 20px;position:relative;border-bottom:1px solid #f0ede8;}
+.b-lista li:last-child{border-bottom:none;}
+.b-lista li::before{content:'';position:absolute;left:5px;top:13px;width:6px;height:6px;border-radius:50%;background:var(--ac);}
+.b-img{margin-bottom:16px;}.b-img img{width:100%;border-radius:11px;border:1px solid var(--bd);display:block;}
+.b-video{margin-bottom:16px;}.b-video iframe{width:100%;aspect-ratio:16/9;border:none;display:block;border-radius:11px;}
+.b-avviso{margin-bottom:16px;border-radius:11px;padding:13px 16px;font-size:14px;line-height:1.6;white-space:pre-wrap;}
+.av-giallo{background:#fff8e8;border:1px solid #f0d080;color:#7a5a00;}
+.av-rosso{background:#fff0f0;border:1px solid #f0a0a0;color:#8a0000;}
+.av-verde{background:#f0fff4;border:1px solid #90d0a0;color:#1a5a2a;}
+.av-blu{background:#f0f8ff;border:1px solid #90c0e0;color:#003a6a;}
+@media(max-width:600px){.wrap{padding:24px 16px 60px;}.g-title{font-size:22px;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="mark">BB</div><div class="lt">Big Ben</div></div>
+  <button class="back" onclick="history.back()">&#8592; Indietro</button>
+</header>
+<div class="wrap">
+  <div class="gh">
+    <span class="g-icon">📋</span>
+    <div class="badge attiva">&#9679; Attivo</div>
+    <h1 class="g-title">Apertura sala sopra</h1>
+    <div class="g-cat">Aperture</div>
+    
+  </div>
+  <div class="toc"><div class="toc-lbl">Sezioni</div>
+    <a href="#sec-0" class="toc-item">
+      <span class="toc-num">1</span>
+      <span class="toc-label">Apertura sala sopra 9:00/14:00</span>
+    </a>
+    <a href="#sec-1" class="toc-item">
+      <span class="toc-num">2</span>
+      <span class="toc-label">Apertura esterna 9:00</span>
+    </a>
+    <a href="#sec-2" class="toc-item">
+      <span class="toc-num">3</span>
+      <span class="toc-label">Apertura interna 9:00</span>
+    </a></div>
+  <section class="sec" id="sec-0">
+  <div class="sec-hd">
+    <div class="sec-n">1</div>
+    <div>
+      <h2 class="sec-title">Apertura sala sopra 9:00/14:00</h2>
+      
+    </div>
+  </div>
+  <div class="sec-body"><div class="b-testo">Prova</div></div>
+</section>
+<div class="sec-divider"></div>
+<section class="sec" id="sec-1">
+  <div class="sec-hd">
+    <div class="sec-n">2</div>
+    <div>
+      <h2 class="sec-title">Apertura esterna 9:00</h2>
+      
+    </div>
+  </div>
+  <div class="sec-body"><p class="empty-sec">Nessun contenuto.</p></div>
+</section>
+<div class="sec-divider"></div>
+<section class="sec" id="sec-2">
+  <div class="sec-hd">
+    <div class="sec-n">3</div>
+    <div>
+      <h2 class="sec-title">Apertura interna 9:00</h2>
+      
+    </div>
+  </div>
+  <div class="sec-body"><p class="empty-sec">Nessun contenuto.</p></div>
+</section>
+</div>
+</body>
+</html>
