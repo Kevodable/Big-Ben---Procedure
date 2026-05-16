@@ -214,14 +214,6 @@ textarea.form-input{resize:vertical;min-height:56px;line-height:1.5;}
     <div class="sidebar-item active" onclick="filterCat('tutti')" id="cat-tutti">
       <span class="item-icon">📋</span><span class="item-label">Tutti</span><span class="sidebar-count" id="count-tutti">0</span>
     </div>
-    <div class="sidebar-item" onclick="filterCat('attivi')" id="cat-attivi">
-      <span class="item-icon">✅</span><span class="item-label">Attivi</span><span class="sidebar-count" id="count-attivi">0</span>
-    </div>
-    <div class="sidebar-item" onclick="filterCat('bozze')" id="cat-bozze">
-      <span class="item-icon">✏️</span><span class="item-label">Bozze</span><span class="sidebar-count" id="count-bozze">0</span>
-    </div>
-    <div class="sidebar-divider"></div>
-    <div class="sidebar-label">Categoria</div>
     <div id="sidebar-cats"></div>
   </aside>
 
@@ -256,28 +248,9 @@ textarea.form-input{resize:vertical;min-height:56px;line-height:1.5;}
       <button class="modal-close" onclick="closeModal('editor-modal')">✕</button>
     </div>
     <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Nome gruppo *</label>
-          <input type="text" class="form-input" id="f-name" placeholder="Es: Chiusura, Apertura cassa...">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Categoria</label>
-          <input type="text" class="form-input" id="f-cat" placeholder="Es: Cassa, Sicurezza...">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Descrizione breve</label>
-          <input type="text" class="form-input" id="f-desc" placeholder="Cosa copre questo gruppo">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Stato</label>
-          <select class="form-input" id="f-status">
-            <option value="attiva">Attivo</option>
-            <option value="bozza">Bozza</option>
-          </select>
-        </div>
+      <div class="form-group">
+        <label class="form-label">Nome *</label>
+        <input type="text" class="form-input" id="f-name" placeholder="Es: Chiusura, Apertura cassa...">
       </div>
       <div class="form-group">
         <label class="form-label">Icona</label>
@@ -476,17 +449,10 @@ function renderGrid() {
   const q = document.getElementById('search-input').value.toLowerCase();
   const sort = document.getElementById('sort-select').value;
 
-  let list = groups.filter(g => {
-    if (currentFilter === 'attivi') return g.status === 'attiva';
-    if (currentFilter === 'bozze')  return g.status === 'bozza';
-    if (currentFilter !== 'tutti')  return g.category === currentFilter;
-    return true;
-  });
+  let list = groups.filter(() => true);
 
   if (q) list = list.filter(g =>
     g.name.toLowerCase().includes(q) ||
-    (g.description || '').toLowerCase().includes(q) ||
-    (g.category || '').toLowerCase().includes(q) ||
     (g.sections || []).some(s => s.name.toLowerCase().includes(q))
   );
 
@@ -499,23 +465,7 @@ function renderGrid() {
     ? '<div class="empty-state"><div class="ei">📭</div><p>Nessun gruppo.<br>Clicca <strong>"+ Nuovo gruppo"</strong> per iniziare.</p></div>'
     : list.map(cardHTML).join('');
 
-  document.getElementById('count-tutti').textContent  = groups.length;
-  document.getElementById('count-attivi').textContent = groups.filter(g => g.status === 'attiva').length;
-  document.getElementById('count-bozze').textContent  = groups.filter(g => g.status === 'bozza').length;
-
-  const cats = [...new Set(groups.map(g => g.category).filter(Boolean))];
-  const catIcons = { Cassa:'💰', Macchine:'🎮', Sicurezza:'🔒', Pulizie:'🧹', Apertura:'🔑', Chiusura:'🌙', Kartodrome:'🚗' };
-  document.getElementById('sidebar-cats').innerHTML = cats.map(c => `
-    <div class="sidebar-item" onclick="filterCat('${esc(c)}')" id="cat-${esc(c)}">
-      <span class="item-icon">${catIcons[c] || '📁'}</span>
-      <span class="item-label">${esc(c)}</span>
-      <span class="sidebar-count">${groups.filter(g => g.category === c).length}</span>
-    </div>`).join('');
-
-  // Re-apply active class
-  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-  const activeEl = document.getElementById('cat-' + currentFilter);
-  if (activeEl) activeEl.classList.add('active');
+  document.getElementById('count-tutti').textContent = groups.length;
 }
 
 function cardHTML(g) {
@@ -526,11 +476,8 @@ function cardHTML(g) {
   return `<div class="proc-card" onclick="openEditModal('${g.id}')">
     <div class="proc-card-top">
       <span class="proc-icon">${g.icon || '📋'}</span>
-      <span class="proc-status ${g.status}">${g.status === 'attiva' ? 'Attivo' : 'Bozza'}</span>
     </div>
     <div class="proc-name">${esc(g.name)}</div>
-    <div class="proc-cat">${esc(g.category || 'Generale')}</div>
-    ${g.description ? `<div class="proc-desc">${esc(g.description)}</div>` : ''}
     ${sections.length > 0 ? `<div class="sub-chips">${chips}${more}</div>` : ''}
     <div class="proc-footer">
       <span class="proc-meta">${sections.length} sezioni</span>
@@ -551,8 +498,7 @@ function filterCat(cat) {
 function openNewModal() {
   editingId = null; selEmoji = '📋';
   document.getElementById('editor-title').textContent = 'Nuovo gruppo';
-  ['f-name','f-cat','f-desc'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-status').value = 'attiva';
+  document.getElementById('f-name').value = '';
   document.getElementById('btn-delete').style.display = 'none';
   document.getElementById('btn-publish').disabled = false;
   document.getElementById('btn-publish').textContent = '↑ Pubblica su GitHub';
@@ -569,9 +515,6 @@ function openEditModal(id) {
   editingId = id; selEmoji = g.icon || '📋';
   document.getElementById('editor-title').textContent = 'Modifica gruppo';
   document.getElementById('f-name').value = g.name;
-  document.getElementById('f-cat').value  = g.category || '';
-  document.getElementById('f-desc').value = g.description || '';
-  document.getElementById('f-status').value = g.status || 'attiva';
   document.getElementById('btn-delete').style.display = 'inline-flex';
   document.getElementById('btn-publish').disabled = false;
   document.getElementById('btn-publish').textContent = '↑ Pubblica su GitHub';
@@ -782,10 +725,7 @@ function collectForm() {
   if (!name) { document.getElementById('f-name').focus(); showToast('Inserisci il nome del gruppo'); return null; }
   return {
     name,
-    category:    document.getElementById('f-cat').value.trim() || 'Generale',
-    description: document.getElementById('f-desc').value.trim(),
-    icon:   selEmoji,
-    status: document.getElementById('f-status').value,
+    icon:     selEmoji,
     sections: collectSections()
   };
 }
@@ -974,10 +914,7 @@ header{background:var(--t);padding:0 28px;height:52px;display:flex;align-items:c
 <div class="wrap">
   <div class="gh">
     <span class="g-icon">${g.icon || '📋'}</span>
-    <div class="badge ${g.status}">${g.status === 'attiva' ? '&#9679; Attivo' : '&#9679; Bozza'}</div>
     <h1 class="g-title">${esc(g.name)}</h1>
-    <div class="g-cat">${esc(g.category || 'Generale')}</div>
-    ${g.description ? `<p class="g-desc">${esc(g.description)}</p>` : ''}
   </div>
   ${sections.length > 1 ? `<div class="toc"><div class="toc-lbl">Sezioni</div>${toc}</div>` : ''}
   ${body}
