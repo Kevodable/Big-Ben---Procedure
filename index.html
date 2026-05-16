@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v2026-05-14 -->
+<!-- v2026-05-16 -->
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -7,150 +7,208 @@
 <title>Big Ben — Gestione Procedure</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f4f0;--surface:#fff;--surface2:#f0ede8;--border:#e2ddd8;--text:#1a1714;--text2:#6b6560;--text3:#a09890;--accent:#c8392b;--accent-light:#fdf0ee;--accent-dark:#a02e22;--green:#2a7a4b;--green-light:#edf7f2;--tag-bg:#ede9e3;}
+:root{
+  --bg:#f5f4f0;--surface:#fff;--surface2:#f0ede8;--border:#e2ddd8;
+  --text:#1a1714;--text2:#6b6560;--text3:#a09890;
+  --accent:#c8392b;--accent-light:#fdf0ee;--accent-dark:#a02e22;
+  --green:#2a7a4b;--green-light:#edf7f2;--tag-bg:#ede9e3;
+  --blue:#1d4ed8;--blue-light:#eff6ff;
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
 header{background:var(--text);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:100;}
 .logo{display:flex;align-items:center;gap:12px;}
 .logo-mark{width:28px;height:28px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;font-family:'DM Mono',monospace;}
 .logo-text{font-size:14px;font-weight:500;color:#fff;}
 .logo-sub{font-size:11px;color:#888;font-family:'DM Mono',monospace;margin-top:1px;}
-.btn-new{background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
+.header-right{display:flex;align-items:center;gap:10px;}
+.sync-badge{display:flex;align-items:center;gap:5px;font-size:11px;font-family:'DM Mono',monospace;padding:4px 10px;border-radius:20px;transition:all .2s;white-space:nowrap;}
+.sync-badge.idle{background:rgba(42,122,75,.25);color:#7ecfa0;}
+.sync-badge.syncing{background:rgba(255,255,255,.1);color:#aaa;}
+.sync-badge.error{background:rgba(200,57,43,.25);color:#f0907a;}
+.sync-badge.no-token{background:rgba(255,255,255,.08);color:#666;}
+.btn-icon{background:rgba(255,255,255,.1);border:none;width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:#fff;transition:background .15s;flex-shrink:0;}
+.btn-icon:hover{background:rgba(255,255,255,.2);}
+.btn-new{background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;white-space:nowrap;}
 .btn-new:hover{background:var(--accent-dark);}
+
+/* LAYOUT */
 .layout{display:flex;min-height:calc(100vh - 58px);}
-aside{width:240px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);padding:24px 0;overflow-y:auto;position:sticky;top:58px;height:calc(100vh - 58px);}
-.sidebar-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;padding:0 20px;margin-bottom:6px;}
-.sidebar-item{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;cursor:pointer;transition:background .1s;font-size:13px;color:var(--text2);gap:8px;}
+aside{width:220px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);padding:20px 0;overflow-y:auto;position:sticky;top:58px;height:calc(100vh - 58px);}
+.sidebar-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;padding:0 18px;margin-bottom:6px;}
+.sidebar-item{display:flex;align-items:center;justify-content:space-between;padding:8px 18px;cursor:pointer;transition:background .1s;font-size:13px;color:var(--text2);gap:8px;}
 .sidebar-item:hover{background:var(--surface2);color:var(--text);}
 .sidebar-item.active{background:var(--accent-light);color:var(--accent);font-weight:500;}
 .sidebar-item .item-icon{font-size:15px;flex-shrink:0;}
 .sidebar-item .item-label{flex:1;}
 .sidebar-count{font-size:11px;background:var(--tag-bg);color:var(--text3);padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;}
-.sidebar-divider{height:1px;background:var(--border);margin:12px 20px;}
-main{flex:1;padding:32px 40px;max-width:900px;}
+.sidebar-divider{height:1px;background:var(--border);margin:10px 18px;}
+
+main{flex:1;padding:32px 40px;max-width:1000px;}
 .page-title{font-size:22px;font-weight:600;margin-bottom:4px;}
-.page-sub{font-size:13px;color:var(--text2);margin-bottom:28px;}
-.search-row{display:flex;gap:10px;margin-bottom:24px;}
+.page-sub{font-size:13px;color:var(--text2);margin-bottom:20px;}
+
+/* NO TOKEN BANNER */
+.banner{border-radius:12px;padding:13px 16px;margin-bottom:20px;display:flex;align-items:center;gap:12px;font-size:13px;line-height:1.5;}
+.banner.warn{background:var(--accent-light);border:1px solid #f0c0ba;}
+.banner a{color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;}
+.banner-icon{font-size:18px;flex-shrink:0;}
+
+/* SEARCH */
+.search-row{display:flex;gap:10px;margin-bottom:22px;}
 .search-wrap{position:relative;flex:1;}
 .search-wrap input{width:100%;padding:10px 14px 10px 38px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;}
 .search-wrap input:focus{border-color:var(--accent);}
 .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.4;}
-select{padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text2);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;}
-.proc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.sort-sel{padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text2);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;}
+
+/* GRID */
+.proc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
 .proc-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;cursor:pointer;transition:all .15s;}
 .proc-card:hover{border-color:#c8b8b0;box-shadow:0 4px 16px rgba(0,0,0,.06);transform:translateY(-1px);}
 .proc-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
-.proc-icon{font-size:22px;}
+.proc-icon{font-size:24px;}
 .proc-status{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;}
 .proc-status.attiva{background:var(--green-light);color:var(--green);}
 .proc-status.bozza{background:var(--tag-bg);color:var(--text3);}
-.proc-name{font-size:15px;font-weight:600;margin-bottom:4px;line-height:1.3;}
-.proc-cat{font-size:11px;color:var(--text3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
-.proc-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.proc-name{font-size:15px;font-weight:600;margin-bottom:3px;line-height:1.3;}
+.proc-cat{font-size:11px;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
+.proc-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.sub-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
+.sub-chip{font-size:11px;background:var(--tag-bg);color:var(--text2);padding:3px 8px;border-radius:6px;line-height:1.4;}
 .proc-footer{display:flex;align-items:center;justify-content:space-between;}
 .proc-meta{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
 .proc-actions{display:flex;gap:6px;}
-.btn-sm{padding:5px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .12s;}
+.btn-sm{padding:5px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .12s;text-decoration:none;display:inline-block;}
 .btn-edit{background:var(--tag-bg);color:var(--text2);}
 .btn-edit:hover{background:var(--border);color:var(--text);}
-.btn-dl{background:var(--accent-light);color:var(--accent);}
-.btn-dl:hover{background:#f5d8d5;}
+.btn-view{background:var(--blue-light);color:var(--blue);}
+.btn-view:hover{background:#dbeafe;}
 .empty-state{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3);}
 .empty-state .ei{font-size:48px;margin-bottom:12px;}
 .empty-state p{font-size:14px;line-height:1.8;}
+
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(20,16,12,.55);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .2s;}
 .modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--surface);border-radius:18px;width:100%;max-width:720px;max-height:92vh;overflow-y:auto;transform:translateY(12px);transition:transform .2s;box-shadow:0 24px 60px rgba(0,0,0,.18);}
+.modal{background:var(--surface);border-radius:18px;width:100%;max-width:780px;max-height:92vh;overflow-y:auto;transform:translateY(12px);transition:transform .2s;box-shadow:0 24px 60px rgba(0,0,0,.18);}
 .modal-overlay.open .modal{transform:translateY(0);}
-.modal-header{padding:22px 28px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);border-radius:18px 18px 0 0;z-index:1;}
+.modal-header{padding:20px 26px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);border-radius:18px 18px 0 0;z-index:1;}
 .modal-title{font-size:17px;font-weight:600;}
 .modal-close{background:var(--surface2);border:none;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
 .modal-close:hover{background:var(--border);}
-.modal-body{padding:22px 28px;}
-.modal-footer{padding:14px 28px 22px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--border);flex-wrap:wrap;}
-.form-group{margin-bottom:16px;}
-.form-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:.5px;}
-.form-input{width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s;}
+.modal-body{padding:20px 26px;}
+.modal-footer{padding:14px 26px 20px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--border);flex-wrap:wrap;position:sticky;bottom:0;background:var(--surface);border-radius:0 0 18px 18px;}
+
+/* FORM */
+.form-group{margin-bottom:14px;}
+.form-label{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.5px;}
+.form-input{width:100%;padding:9px 13px;background:var(--bg);border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s;}
 .form-input:focus{border-color:var(--accent);background:#fff;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-textarea.form-input{resize:vertical;min-height:60px;line-height:1.5;}
-.emoji-row{display:flex;gap:8px;flex-wrap:wrap;}
+textarea.form-input{resize:vertical;min-height:56px;line-height:1.5;}
+.emoji-row{display:flex;gap:6px;flex-wrap:wrap;}
 .emoji-opt{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;transition:all .1s;}
 .emoji-opt:hover,.emoji-opt.selected{border-color:var(--accent);background:var(--accent-light);}
 
-/* BLOCKS EDITOR */
-.blocks-area{margin-bottom:12px;}
-.block-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;}
-.block-header{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface2);border-bottom:1px solid var(--border);}
-.block-type-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;text-transform:uppercase;letter-spacing:.5px;}
-.block-type-badge.testo{background:#e8f4ff;color:#1d4ed8;}
-.block-type-badge.passaggio{background:#f0fdf4;color:#166534;}
-.block-type-badge.lista{background:#fef9e8;color:#92400e;}
-.block-type-badge.immagine{background:#f5f3ff;color:#6d28d9;}
-.block-type-badge.video{background:#fff7ed;color:#c2410c;}
-.block-type-badge.avviso{background:#fff1f2;color:#be123c;}
-.block-drag{cursor:grab;color:var(--text3);font-size:14px;padding:0 2px;}
-.block-actions-right{margin-left:auto;display:flex;gap:4px;}
-.block-btn{background:none;border:none;cursor:pointer;color:var(--text3);font-size:13px;padding:2px 6px;border-radius:5px;}
-.block-btn:hover{background:var(--border);color:var(--text);}
-.block-content{padding:10px 12px;}
-.block-input{width:100%;border:none;background:transparent;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;resize:none;line-height:1.6;min-height:32px;}
-.block-input.mono{font-family:'DM Mono',monospace;font-size:12px;}
-.block-url-input{width:100%;border:1px solid var(--border);background:#fff;border-radius:8px;padding:7px 11px;font-size:12px;color:var(--text);font-family:'DM Mono',monospace;outline:none;margin-bottom:8px;}
-.block-url-input:focus{border-color:var(--accent);}
-.block-preview{margin-top:6px;}
-.block-preview img{max-width:100%;max-height:140px;border-radius:8px;border:1px solid var(--border);}
-.avviso-select{margin-bottom:8px;padding:5px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:#fff;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;}
+/* SUB-PROCEDURE SECTIONS */
+.section-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.sub-list{margin-bottom:10px;}
+.sub-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;}
+.sub-header{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;background:var(--surface2);user-select:none;}
+.sub-header:hover{background:var(--border);}
+.sub-num{width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:'DM Mono',monospace;}
+.sub-name-input{flex:1;background:transparent;border:none;font-size:14px;font-weight:600;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;min-width:0;}
+.sub-name-input::placeholder{color:var(--text3);font-weight:400;}
+.sub-toggle{font-size:12px;color:var(--text3);flex-shrink:0;transition:transform .18s;}
+.sub-toggle.open{transform:rotate(180deg);}
+.sub-del{background:none;border:none;cursor:pointer;color:var(--text3);font-size:15px;padding:2px 5px;border-radius:5px;flex-shrink:0;line-height:1;}
+.sub-del:hover{background:var(--accent-light);color:var(--accent);}
+.sub-body{padding:14px;}
+.sub-body.collapsed{display:none;}
+.sub-desc-input{width:100%;padding:7px 11px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text2);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:12px;}
+.sub-desc-input:focus{border-color:var(--accent);}
+.add-sub-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;border:2px dashed var(--border);border-radius:12px;background:transparent;color:var(--text3);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.add-sub-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
 
-/* ADD BLOCK TOOLBAR */
-.add-block-bar{display:flex;gap:6px;flex-wrap:wrap;padding:10px 0;}
-.add-block-btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;border:1.5px dashed var(--border);background:transparent;color:var(--text3);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s;}
+/* BLOCKS */
+.blocks-area{margin-bottom:6px;}
+.block-item{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:5px;overflow:hidden;}
+.block-hd{display:flex;align-items:center;gap:7px;padding:6px 10px;background:var(--surface2);border-bottom:1px solid var(--border);}
+.block-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;text-transform:uppercase;letter-spacing:.4px;}
+.block-badge.testo{background:#e8f4ff;color:#1d4ed8;}
+.block-badge.passaggio{background:#f0fdf4;color:#166534;}
+.block-badge.lista{background:#fef9e8;color:#92400e;}
+.block-badge.immagine{background:#f5f3ff;color:#6d28d9;}
+.block-badge.video{background:#fff7ed;color:#c2410c;}
+.block-badge.avviso{background:#fff1f2;color:#be123c;}
+.block-btns{margin-left:auto;display:flex;gap:3px;}
+.block-btn{background:none;border:none;cursor:pointer;color:var(--text3);font-size:12px;padding:2px 5px;border-radius:4px;}
+.block-btn:hover{background:var(--border);color:var(--text);}
+.block-body{padding:8px 10px;}
+.block-ta{width:100%;border:none;background:transparent;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;resize:none;line-height:1.6;min-height:28px;}
+.block-ta.mono{font-family:'DM Mono',monospace;font-size:12px;}
+.block-url{width:100%;border:1px solid var(--border);background:#fff;border-radius:7px;padding:6px 10px;font-size:12px;color:var(--text);font-family:'DM Mono',monospace;outline:none;margin-bottom:6px;}
+.block-url:focus{border-color:var(--accent);}
+.block-preview{margin-top:5px;}
+.block-preview img{max-width:100%;max-height:110px;border-radius:7px;border:1px solid var(--border);}
+.avviso-sel{margin-bottom:6px;padding:5px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;background:#fff;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;}
+.add-block-bar{display:flex;gap:5px;flex-wrap:wrap;padding:5px 0 0;}
+.add-block-btn{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:7px;border:1.5px dashed var(--border);background:transparent;color:var(--text3);font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s;}
 .add-block-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
 
 /* BUTTONS */
 .btn-primary{background:var(--text);color:#fff;padding:9px 20px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
 .btn-primary:hover{background:#333;}
+.btn-publish{background:var(--accent);color:#fff;padding:9px 20px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
+.btn-publish:hover:not(:disabled){background:var(--accent-dark);}
+.btn-publish:disabled{opacity:.55;cursor:not-allowed;}
 .btn-secondary{background:var(--surface2);color:var(--text2);border:1px solid var(--border);padding:9px 20px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
 .btn-secondary:hover{background:var(--border);}
 .btn-danger{background:#fee2e2;color:var(--accent);padding:9px 20px;border-radius:9px;border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
 .btn-danger:hover{background:#fecaca;}
 
-/* DOWNLOAD MODAL */
-.dl-box{background:var(--green-light);border:1px solid #b8dfc9;border-radius:12px;padding:18px;text-align:center;margin-bottom:18px;}
-.dl-filename{font-family:'DM Mono',monospace;font-size:13px;color:var(--green);background:#fff;border:1px solid #b8dfc9;border-radius:8px;padding:7px 14px;margin:8px 0;display:inline-block;}
-.dl-steps{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px;}
-.dl-step{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;}
-.dl-step:last-child{border-bottom:none;}
-.dl-num{width:20px;height:20px;background:var(--accent);color:#fff;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Mono',monospace;margin-top:1px;}
-.dl-text{color:var(--text2);line-height:1.5;}
-.dl-text strong{color:var(--text);display:block;margin-bottom:1px;}
-.link-box{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-top:12px;word-break:break-all;}
-.btn-copy{background:var(--accent);color:#fff;border:none;padding:9px 20px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;flex:1;transition:background .15s;}
-.btn-copy:hover{background:var(--accent-dark);}
-.btn-copy.copied{background:var(--green);}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--text);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;opacity:0;transition:all .2s;z-index:999;pointer-events:none;}
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--text);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;opacity:0;transition:all .2s;z-index:999;pointer-events:none;max-width:80vw;text-align:center;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* SETTINGS MODAL */
+.settings-hint{font-size:12px;color:var(--text3);margin-top:5px;line-height:1.6;}
+.token-wrap{position:relative;}
+.token-wrap input{padding-right:40px;}
+.token-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:0;}
+.token-status{font-size:12px;margin-top:8px;line-height:1.5;}
+
+/* PUBLISHED LINK */
+.pub-link{display:flex;align-items:center;gap:8px;background:var(--green-light);border:1px solid #b8dfc9;border-radius:9px;padding:9px 13px;margin-top:10px;font-size:11px;font-family:'DM Mono',monospace;color:var(--green);word-break:break-all;}
+
 @media(max-width:700px){aside{display:none;}main{padding:20px;}header{padding:0 20px;}.form-row{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
+
 <header>
   <div class="logo">
     <div class="logo-mark">BB</div>
     <div><div class="logo-text">Big Ben</div><div class="logo-sub">Gestione Procedure</div></div>
   </div>
-  <button class="btn-new" onclick="openNewModal()">+ Nuova Procedura</button>
+  <div class="header-right">
+    <div class="sync-badge no-token" id="sync-badge">⚪ Nessun token</div>
+    <button class="btn-icon" onclick="openSettings()" title="Impostazioni GitHub">⚙️</button>
+    <button class="btn-new" onclick="openNewModal()">+ Nuovo gruppo</button>
+  </div>
 </header>
 
 <div class="layout">
   <aside>
     <div class="sidebar-label">Filtri</div>
     <div class="sidebar-item active" onclick="filterCat('tutti')" id="cat-tutti">
-      <span class="item-icon">📋</span><span class="item-label">Tutte</span><span class="sidebar-count" id="count-tutti">0</span>
+      <span class="item-icon">📋</span><span class="item-label">Tutti</span><span class="sidebar-count" id="count-tutti">0</span>
     </div>
-    <div class="sidebar-item" onclick="filterCat('attive')" id="cat-attive">
-      <span class="item-icon">✅</span><span class="item-label">Attive</span><span class="sidebar-count" id="count-attive">0</span>
+    <div class="sidebar-item" onclick="filterCat('attivi')" id="cat-attivi">
+      <span class="item-icon">✅</span><span class="item-label">Attivi</span><span class="sidebar-count" id="count-attivi">0</span>
     </div>
     <div class="sidebar-item" onclick="filterCat('bozze')" id="cat-bozze">
       <span class="item-icon">✏️</span><span class="item-label">Bozze</span><span class="sidebar-count" id="count-bozze">0</span>
@@ -162,13 +220,19 @@ textarea.form-input{resize:vertical;min-height:60px;line-height:1.5;}
 
   <main>
     <div class="page-title">Procedure Operative</div>
-    <div class="page-sub">Crea documenti operativi con testi, passaggi, immagini e video — ogni procedura ha il suo link diretto.</div>
+    <div class="page-sub">Ogni gruppo contiene più sezioni (es: "Apertura esterna", "Apertura interna") su un unico file — pubblicato automaticamente su GitHub.</div>
+
+    <div id="no-token-banner" class="banner warn" style="display:none">
+      <span class="banner-icon">⚠️</span>
+      <span>Nessun token GitHub configurato. Le procedure vengono salvate solo su questo dispositivo. <a onclick="openSettings()">Configura ora →</a></span>
+    </div>
+
     <div class="search-row">
       <div class="search-wrap">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" placeholder="Cerca procedura..." oninput="renderGrid()">
+        <input type="text" id="search-input" placeholder="Cerca gruppo o sezione..." oninput="renderGrid()">
       </div>
-      <select id="sort-select" onchange="renderGrid()">
+      <select class="sort-sel" id="sort-select" onchange="renderGrid()">
         <option value="recent">Più recenti</option>
         <option value="alpha">A → Z</option>
       </select>
@@ -181,29 +245,29 @@ textarea.form-input{resize:vertical;min-height:60px;line-height:1.5;}
 <div class="modal-overlay" id="editor-modal">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title" id="editor-title">Nuova Procedura</div>
+      <div class="modal-title" id="editor-title">Nuovo gruppo</div>
       <button class="modal-close" onclick="closeModal('editor-modal')">✕</button>
     </div>
     <div class="modal-body">
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Nome *</label>
-          <input type="text" class="form-input" id="f-name" placeholder="Es: Apertura cassa">
+          <label class="form-label">Nome gruppo *</label>
+          <input type="text" class="form-input" id="f-name" placeholder="Es: Chiusura, Apertura cassa...">
         </div>
         <div class="form-group">
           <label class="form-label">Categoria</label>
-          <input type="text" class="form-input" id="f-cat" placeholder="Es: Cassa, Macchine...">
+          <input type="text" class="form-input" id="f-cat" placeholder="Es: Cassa, Sicurezza...">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Descrizione breve</label>
-          <input type="text" class="form-input" id="f-desc" placeholder="A cosa serve questa procedura">
+          <input type="text" class="form-input" id="f-desc" placeholder="Cosa copre questo gruppo">
         </div>
         <div class="form-group">
           <label class="form-label">Stato</label>
           <select class="form-input" id="f-status">
-            <option value="attiva">Attiva</option>
+            <option value="attiva">Attivo</option>
             <option value="bozza">Bozza</option>
           </select>
         </div>
@@ -213,51 +277,48 @@ textarea.form-input{resize:vertical;min-height:60px;line-height:1.5;}
         <div class="emoji-row" id="emoji-row"></div>
       </div>
 
-      <div class="form-group" style="margin-top:4px">
-        <label class="form-label">Contenuto</label>
-        <div class="blocks-area" id="blocks-area"></div>
-        <div class="add-block-bar">
-          <button class="add-block-btn" onclick="addBlock('testo')">✏️ Testo</button>
-          <button class="add-block-btn" onclick="addBlock('passaggio')">① Passaggio</button>
-          <button class="add-block-btn" onclick="addBlock('lista')">• Lista</button>
-          <button class="add-block-btn" onclick="addBlock('immagine')">🖼 Immagine</button>
-          <button class="add-block-btn" onclick="addBlock('video')">▶️ Video</button>
-          <button class="add-block-btn" onclick="addBlock('avviso')">⚠️ Avviso</button>
-        </div>
+      <div style="margin-top:6px">
+        <div class="section-label">Sezioni della procedura</div>
+        <div class="sub-list" id="sub-list"></div>
+        <button class="add-sub-btn" onclick="addSection()">+ Aggiungi sezione</button>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-danger" id="btn-delete-proc" onclick="deleteCurrentProc()" style="display:none">🗑 Elimina</button>
-      <button class="btn-secondary" onclick="saveProc('bozza')">Salva bozza</button>
-      <button class="btn-primary" onclick="saveAndDownload()">Pubblica e scarica →</button>
+      <button class="btn-danger" id="btn-delete" onclick="deleteCurrentGroup()" style="display:none">🗑 Elimina</button>
+      <button class="btn-secondary" onclick="saveDraft()">Salva bozza</button>
+      <button class="btn-publish" id="btn-publish" onclick="publishGroup()">↑ Pubblica su GitHub</button>
     </div>
   </div>
 </div>
 
-<!-- DOWNLOAD MODAL -->
-<div class="modal-overlay" id="download-modal">
-  <div class="modal" style="max-width:500px">
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal" style="max-width:460px">
     <div class="modal-header">
-      <div class="modal-title">📥 File scaricato!</div>
-      <button class="modal-close" onclick="closeModal('download-modal')">✕</button>
+      <div class="modal-title">⚙️ Impostazioni GitHub</div>
+      <button class="modal-close" onclick="closeModal('settings-modal')">✕</button>
     </div>
     <div class="modal-body">
-      <div class="dl-box">
-        <div style="font-size:34px;margin-bottom:6px">✅</div>
-        <div style="font-size:14px;font-weight:600;color:var(--green)">Procedura pronta</div>
-        <div class="dl-filename" id="dl-filename">—</div>
-        <div style="font-size:12px;color:var(--text3)">Caricala su GitHub per renderla accessibile</div>
+      <div class="form-group">
+        <label class="form-label">Token GitHub (Personal Access Token)</label>
+        <div class="token-wrap">
+          <input type="password" class="form-input" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxx">
+          <button class="token-eye" id="token-eye-btn" onclick="toggleTokenEye()">👁</button>
+        </div>
+        <div class="settings-hint">
+          Crea un token su <strong>GitHub → Settings → Developer settings → Fine-grained tokens</strong><br>
+          Seleziona repository <strong>kevodable/Big-Ben---Procedure</strong> → Contents: <strong>Read and write</strong>
+        </div>
       </div>
-      <div class="dl-steps">
-        <div class="dl-step"><div class="dl-num">1</div><div class="dl-text"><strong>Vai su github.com/kevodable/Big-Ben---Procedure</strong>Add file → Upload files</div></div>
-        <div class="dl-step"><div class="dl-num">2</div><div class="dl-text"><strong>Trascina il file e clicca Commit changes</strong></div></div>
-        <div class="dl-step"><div class="dl-num">3</div><div class="dl-text"><strong>Copia il link e incollalo nel gestionale</strong>Attivo dopo 1-2 minuti</div></div>
+      <div class="form-group">
+        <label class="form-label">Repository</label>
+        <input class="form-input" value="kevodable / Big-Ben---Procedure" readonly style="color:var(--text3);">
       </div>
-      <div class="link-box" id="dl-link">—</div>
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button class="btn-copy" id="btn-copy" onclick="copyLink()">📋 Copia link</button>
-        <a href="https://github.com/kevodable/Big-Ben---Procedure" target="_blank"><button class="btn-secondary">GitHub →</button></a>
-      </div>
+      <div class="token-status" id="token-status"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('settings-modal')">Annulla</button>
+      <button class="btn-primary" onclick="saveToken()">Salva e verifica</button>
     </div>
   </div>
 </div>
@@ -265,445 +326,748 @@ textarea.form-input{resize:vertical;min-height:60px;line-height:1.5;}
 <div class="toast" id="toast"></div>
 
 <script>
-const SK = 'bigben_procedures';
-const GITHUB_BASE = 'https://kevodable.github.io/Big-Ben---Procedure/';
-const EMOJIS = ['📋','🔧','💰','🎮','🔑','🧹','⚡','🚗','🎯','📦','🔒','📞','🛠','💡','📊','🎪'];
+// ===== CONSTANTS =====
+const REPO    = 'kevodable/Big-Ben---Procedure';
+const BRANCH  = 'main';
+const DATA_PATH = 'procedures.json';
+const GH_PAGES  = 'https://kevodable.github.io/Big-Ben---Procedure/';
+const API       = 'https://api.github.com';
+
+const SK_GROUPS = 'bigben_groups';
+const SK_TOKEN  = 'bigben_gh_token';
+const SK_META   = 'bigben_gh_meta';
+
+const EMOJIS = ['📋','🔧','💰','🎮','🔑','🧹','⚡','🚗','🎯','📦','🔒','📞','🛠','💡','📊','🌙','🎪','🏁','⚠️','🔴'];
 const BLOCK_LABELS = {testo:'Testo',passaggio:'Passaggio',lista:'Lista',immagine:'Immagine',video:'Video',avviso:'Avviso'};
 
-let procs=[], editingId=null, currentFilter='tutti', selEmoji='📋', dlLink='';
-let stepCounter = 0;
+// ===== STATE =====
+let groups = [];
+let editingId = null;
+let currentFilter = 'tutti';
+let selEmoji = '📋';
+let ghMeta = {};
 
-function load(){try{procs=JSON.parse(localStorage.getItem(SK)||'[]');}catch(e){procs=[];}}
-function save(){localStorage.setItem(SK,JSON.stringify(procs));}
+// ===== STORAGE =====
+function loadLocal() {
+  try { groups = JSON.parse(localStorage.getItem(SK_GROUPS) || '[]'); } catch(e) { groups = []; }
+  try { ghMeta  = JSON.parse(localStorage.getItem(SK_META)   || '{}'); } catch(e) { ghMeta = {}; }
+}
+function saveLocal() {
+  localStorage.setItem(SK_GROUPS, JSON.stringify(groups));
+  localStorage.setItem(SK_META, JSON.stringify(ghMeta));
+}
+function getToken() { return localStorage.getItem(SK_TOKEN) || ''; }
 
-// -- GRID --
-function renderGrid(){
-  const q=document.getElementById('search-input').value.toLowerCase();
-  const sort=document.getElementById('sort-select').value;
-  let list=procs.filter(p=>{
-    if(currentFilter==='attive')return p.status==='attiva';
-    if(currentFilter==='bozze')return p.status==='bozza';
-    if(currentFilter!=='tutti')return p.category===currentFilter;
-    return true;
+// ===== GITHUB API =====
+function b64Encode(str) {
+  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p) => String.fromCharCode(parseInt(p, 16))));
+}
+function b64Decode(str) {
+  return decodeURIComponent(Array.from(atob(str.replace(/\n/g, ''))).map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join(''));
+}
+
+async function ghGet(path) {
+  const token = getToken();
+  if (!token) throw new Error('NO_TOKEN');
+  const res = await fetch(`${API}/repos/${REPO}/contents/${path}?ref=${BRANCH}`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' }
   });
-  if(q)list=list.filter(p=>p.name.toLowerCase().includes(q)||(p.description||'').toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q));
-  list.sort(sort==='alpha'?(a,b)=>a.name.localeCompare(b.name):(a,b)=>b.updatedAt-a.updatedAt);
-  document.getElementById('proc-grid').innerHTML=list.length===0
-    ?'<div class="empty-state"><div class="ei">📭</div><p>Nessuna procedura.<br>Clicca <strong>"+ Nuova Procedura"</strong> per iniziare.</p></div>'
-    :list.map(cardHTML).join('');
-  document.getElementById('count-tutti').textContent=procs.length;
-  document.getElementById('count-attive').textContent=procs.filter(p=>p.status==='attiva').length;
-  document.getElementById('count-bozze').textContent=procs.filter(p=>p.status==='bozza').length;
-  const cats=[...new Set(procs.map(p=>p.category).filter(Boolean))];
-  const icons={'Cassa':'💰','Macchine':'🎮','Sicurezza':'🔒','Pulizie':'🧹','Apertura':'🔑','Chiusura':'🌙','Kartodrome':'🚗'};
-  document.getElementById('sidebar-cats').innerHTML=cats.map(c=>`
-    <div class="sidebar-item" onclick="filterCat('${esc(c)}')" id="cat-${esc(c)}">
-      <span class="item-icon">${icons[c]||'📁'}</span><span class="item-label">${esc(c)}</span>
-      <span class="sidebar-count">${procs.filter(p=>p.category===c).length}</span>
-    </div>`).join('');
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`GitHub ${res.status}`);
+  return res.json();
 }
 
-function cardHTML(p){
-  const blockCount=(p.blocks||[]).length;
-  return '<div class="proc-card" onclick="openEditModal(\''+p.id+'\')">'
-    +'<div class="proc-card-top"><span class="proc-icon">'+(p.icon||'📋')+'</span>'
-    +'<span class="proc-status '+p.status+'">'+(p.status==='attiva'?'Attiva':'Bozza')+'</span></div>'
-    +'<div class="proc-name">'+esc(p.name)+'</div>'
-    +'<div class="proc-cat">'+esc(p.category||'Generale')+'</div>'
-    +'<div class="proc-desc">'+esc(p.description||'')+'</div>'
-    +'<div class="proc-footer"><span class="proc-meta">'+blockCount+' blocchi</span>'
-    +'<div class="proc-actions" onclick="event.stopPropagation()">'
-    +(p.filename?'<button class="btn-sm btn-dl" onclick="redownload(\''+p.id+'\')">v Riscarica</button>':'')
-    +'<button class="btn-sm btn-edit" onclick="openEditModal(\''+p.id+'\')">Modifica</button>'
-    +'</div></div></div>';
+async function ghPut(path, content, sha, message) {
+  const token = getToken();
+  if (!token) throw new Error('NO_TOKEN');
+  const body = { message, content: b64Encode(content), branch: BRANCH };
+  if (sha) body.sha = sha;
+  const res = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `GitHub PUT ${res.status}`);
+  }
+  return res.json();
 }
 
-function filterCat(cat){
-  currentFilter=cat;
-  document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));
-  const el=document.getElementById('cat-'+cat);if(el)el.classList.add('active');
+async function syncFromGitHub() {
+  setSyncBadge('syncing', '↻ Sincronizzazione...');
+  try {
+    const file = await ghGet(DATA_PATH);
+    if (file) {
+      const data = JSON.parse(b64Decode(file.content));
+      groups = data.groups || [];
+      ghMeta.dataSha = file.sha;
+      saveLocal();
+    }
+    setSyncBadge('idle', '✓ Sincronizzato');
+    document.getElementById('no-token-banner').style.display = 'none';
+  } catch(e) {
+    if (e.message === 'NO_TOKEN') {
+      setSyncBadge('no-token', '⚪ Nessun token');
+      document.getElementById('no-token-banner').style.display = 'flex';
+    } else {
+      setSyncBadge('error', '✕ Errore sync');
+      showToast('Errore sincronizzazione: ' + e.message);
+    }
+  }
   renderGrid();
 }
 
-// -- EDITOR --
-function openNewModal(){
-  editingId=null;selEmoji='📋';stepCounter=0;
-  document.getElementById('editor-title').textContent='Nuova Procedura';
-  ['f-name','f-cat','f-desc'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-status').value='attiva';
-  document.getElementById('btn-delete-proc').style.display='none';
-  renderEmojiRow();
-  document.getElementById('blocks-area').innerHTML='';
-  openModal('editor-modal');
-  setTimeout(()=>document.getElementById('f-name').focus(),200);
+async function pushGroupToGitHub(group, htmlContent) {
+  setSyncBadge('syncing', '↑ Pubblicazione...');
+  try {
+    // Resolve current SHA of HTML file (needed if updating)
+    let fileSha = (ghMeta.fileShas || {})[group.filename];
+    if (!fileSha) {
+      const existing = await ghGet(group.filename);
+      if (existing) fileSha = existing.sha;
+    }
+
+    // Push generated HTML file
+    const htmlRes = await ghPut(group.filename, htmlContent, fileSha, `Procedure: ${group.name}`);
+    if (!ghMeta.fileShas) ghMeta.fileShas = {};
+    ghMeta.fileShas[group.filename] = htmlRes.content.sha;
+
+    // Push updated procedures.json
+    const dataJson = JSON.stringify({ groups, updatedAt: Date.now() }, null, 2);
+    const dataRes  = await ghPut(DATA_PATH, dataJson, ghMeta.dataSha, 'Update procedures index');
+    ghMeta.dataSha = dataRes.content.sha;
+
+    saveLocal();
+    setSyncBadge('idle', '✓ Pubblicato');
+    return true;
+  } catch(e) {
+    setSyncBadge('error', '✕ Errore');
+    showToast('Errore pubblicazione: ' + e.message);
+    return false;
+  }
 }
 
-function openEditModal(id){
-  const p=procs.find(x=>x.id===id);if(!p)return;
-  editingId=id;selEmoji=p.icon||'📋';stepCounter=0;
-  document.getElementById('editor-title').textContent='Modifica Procedura';
-  document.getElementById('f-name').value=p.name;
-  document.getElementById('f-cat').value=p.category||'';
-  document.getElementById('f-desc').value=p.description||'';
-  document.getElementById('f-status').value=p.status||'bozza';
-  document.getElementById('btn-delete-proc').style.display='inline-flex';
+async function pushDataOnly() {
+  if (!getToken()) return;
+  try {
+    const dataJson = JSON.stringify({ groups, updatedAt: Date.now() }, null, 2);
+    const res = await ghPut(DATA_PATH, dataJson, ghMeta.dataSha, 'Update procedures index');
+    ghMeta.dataSha = res.content.sha;
+    saveLocal();
+  } catch(_) {}
+}
+
+function setSyncBadge(state, text) {
+  const b = document.getElementById('sync-badge');
+  b.className = 'sync-badge ' + state;
+  b.textContent = text;
+}
+
+// ===== GRID =====
+function renderGrid() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const sort = document.getElementById('sort-select').value;
+
+  let list = groups.filter(g => {
+    if (currentFilter === 'attivi') return g.status === 'attiva';
+    if (currentFilter === 'bozze')  return g.status === 'bozza';
+    if (currentFilter !== 'tutti')  return g.category === currentFilter;
+    return true;
+  });
+
+  if (q) list = list.filter(g =>
+    g.name.toLowerCase().includes(q) ||
+    (g.description || '').toLowerCase().includes(q) ||
+    (g.category || '').toLowerCase().includes(q) ||
+    (g.sections || []).some(s => s.name.toLowerCase().includes(q))
+  );
+
+  list.sort(sort === 'alpha'
+    ? (a, b) => a.name.localeCompare(b.name)
+    : (a, b) => b.updatedAt - a.updatedAt
+  );
+
+  document.getElementById('proc-grid').innerHTML = list.length === 0
+    ? '<div class="empty-state"><div class="ei">📭</div><p>Nessun gruppo.<br>Clicca <strong>"+ Nuovo gruppo"</strong> per iniziare.</p></div>'
+    : list.map(cardHTML).join('');
+
+  document.getElementById('count-tutti').textContent  = groups.length;
+  document.getElementById('count-attivi').textContent = groups.filter(g => g.status === 'attiva').length;
+  document.getElementById('count-bozze').textContent  = groups.filter(g => g.status === 'bozza').length;
+
+  const cats = [...new Set(groups.map(g => g.category).filter(Boolean))];
+  const catIcons = { Cassa:'💰', Macchine:'🎮', Sicurezza:'🔒', Pulizie:'🧹', Apertura:'🔑', Chiusura:'🌙', Kartodrome:'🚗' };
+  document.getElementById('sidebar-cats').innerHTML = cats.map(c => `
+    <div class="sidebar-item" onclick="filterCat('${esc(c)}')" id="cat-${esc(c)}">
+      <span class="item-icon">${catIcons[c] || '📁'}</span>
+      <span class="item-label">${esc(c)}</span>
+      <span class="sidebar-count">${groups.filter(g => g.category === c).length}</span>
+    </div>`).join('');
+
+  // Re-apply active class
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  const activeEl = document.getElementById('cat-' + currentFilter);
+  if (activeEl) activeEl.classList.add('active');
+}
+
+function cardHTML(g) {
+  const sections = g.sections || [];
+  const chips = sections.slice(0, 3).map(s => `<span class="sub-chip">${esc(s.name)}</span>`).join('');
+  const more  = sections.length > 3 ? `<span class="sub-chip">+${sections.length - 3}</span>` : '';
+  const ghUrl = g.filename ? GH_PAGES + g.filename : '';
+  return `<div class="proc-card" onclick="openEditModal('${g.id}')">
+    <div class="proc-card-top">
+      <span class="proc-icon">${g.icon || '📋'}</span>
+      <span class="proc-status ${g.status}">${g.status === 'attiva' ? 'Attivo' : 'Bozza'}</span>
+    </div>
+    <div class="proc-name">${esc(g.name)}</div>
+    <div class="proc-cat">${esc(g.category || 'Generale')}</div>
+    ${g.description ? `<div class="proc-desc">${esc(g.description)}</div>` : ''}
+    ${sections.length > 0 ? `<div class="sub-chips">${chips}${more}</div>` : ''}
+    <div class="proc-footer">
+      <span class="proc-meta">${sections.length} sezioni</span>
+      <div class="proc-actions" onclick="event.stopPropagation()">
+        ${ghUrl ? `<a class="btn-sm btn-view" href="${esc(ghUrl)}" target="_blank">↗ Apri</a>` : ''}
+        <button class="btn-sm btn-edit" onclick="openEditModal('${g.id}')">Modifica</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function filterCat(cat) {
+  currentFilter = cat;
+  renderGrid();
+}
+
+// ===== EDITOR =====
+function openNewModal() {
+  editingId = null; selEmoji = '📋';
+  document.getElementById('editor-title').textContent = 'Nuovo gruppo';
+  ['f-name','f-cat','f-desc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-status').value = 'attiva';
+  document.getElementById('btn-delete').style.display = 'none';
+  document.getElementById('btn-publish').disabled = false;
+  document.getElementById('btn-publish').textContent = '↑ Pubblica su GitHub';
   renderEmojiRow();
-  document.getElementById('blocks-area').innerHTML='';
-  (p.blocks||[]).forEach(b=>addBlock(b.type,b));
+  document.getElementById('sub-list').innerHTML = '';
+  addSection();
+  openModal('editor-modal');
+  setTimeout(() => document.getElementById('f-name').focus(), 200);
+}
+
+function openEditModal(id) {
+  const g = groups.find(x => x.id === id);
+  if (!g) return;
+  editingId = id; selEmoji = g.icon || '📋';
+  document.getElementById('editor-title').textContent = 'Modifica gruppo';
+  document.getElementById('f-name').value = g.name;
+  document.getElementById('f-cat').value  = g.category || '';
+  document.getElementById('f-desc').value = g.description || '';
+  document.getElementById('f-status').value = g.status || 'attiva';
+  document.getElementById('btn-delete').style.display = 'inline-flex';
+  document.getElementById('btn-publish').disabled = false;
+  document.getElementById('btn-publish').textContent = '↑ Pubblica su GitHub';
+  renderEmojiRow();
+  document.getElementById('sub-list').innerHTML = '';
+  (g.sections || []).forEach(s => addSection(s));
+  if (!g.sections || g.sections.length === 0) addSection();
   openModal('editor-modal');
 }
 
-// -- BLOCKS --
-function addBlock(type, data){
-  const area=document.getElementById('blocks-area');
-  const div=document.createElement('div');
-  div.className='block-item';
-  div.dataset.type=type;
+// ===== SECTIONS =====
+let sectionSeq = 0;
+function addSection(data) {
+  sectionSeq++;
+  const sid = 'sec-' + sectionSeq;
+  const list = document.getElementById('sub-list');
+  const isFirst = list.children.length === 0;
+  const div = document.createElement('div');
+  div.className = 'sub-item';
+  div.dataset.sid = sid;
 
-  if(type==='passaggio') stepCounter++;
-  const stepNum = type==='passaggio' ? stepCounter : null;
+  div.innerHTML = `
+    <div class="sub-header" onclick="toggleSection('${sid}')">
+      <div class="sub-num">${list.children.length + 1}</div>
+      <input class="sub-name-input" type="text" placeholder="Nome sezione (es: Chiusura esterna)"
+        value="${esc(data ? data.name || '' : '')}" onclick="event.stopPropagation()">
+      <button class="sub-del" onclick="event.stopPropagation();removeSection('${sid}')" title="Rimuovi sezione">✕</button>
+      <span class="sub-toggle ${isFirst ? 'open' : ''}">▾</span>
+    </div>
+    <div class="sub-body ${isFirst ? '' : 'collapsed'}" id="body-${sid}">
+      <input class="sub-desc-input" type="text" placeholder="Descrizione breve della sezione (opzionale)"
+        value="${esc(data ? data.description || '' : '')}">
+      <div class="blocks-area" id="blocks-${sid}"></div>
+      <div class="add-block-bar">
+        <button class="add-block-btn" onclick="addBlock('${sid}','testo')">✏️ Testo</button>
+        <button class="add-block-btn" onclick="addBlock('${sid}','passaggio')">① Passaggio</button>
+        <button class="add-block-btn" onclick="addBlock('${sid}','lista')">• Lista</button>
+        <button class="add-block-btn" onclick="addBlock('${sid}','immagine')">🖼 Immagine</button>
+        <button class="add-block-btn" onclick="addBlock('${sid}','video')">▶️ Video</button>
+        <button class="add-block-btn" onclick="addBlock('${sid}','avviso')">⚠️ Avviso</button>
+      </div>
+    </div>`;
 
-  let contentHTML='';
-  if(type==='testo'){
-    contentHTML='<textarea class="block-input" placeholder="Scrivi il testo..." rows="3">'+(data&&data.text?esc(data.text):'')+'</textarea>';
-  } else if(type==='passaggio'){
-    contentHTML='<div style="display:flex;gap:10px;align-items:flex-start">'
-      +'<div style="width:24px;height:24px;background:var(--text);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:3px;font-family:\'DM Mono\',monospace" class="step-counter">'+stepNum+'</div>'
-      +'<textarea class="block-input" placeholder="Descrivi il passaggio..." rows="2" style="flex:1">'+(data&&data.text?esc(data.text):'')+'</textarea>'
-      +'</div>';
-  } else if(type==='lista'){
-    contentHTML='<textarea class="block-input mono" placeholder="Una voce per riga..." rows="4">'+(data&&data.text?esc(data.text):'')+'</textarea>'
-      +'<div style="font-size:10px;color:var(--text3);margin-top:4px">Una voce per riga - ogni riga diventa un bullet point</div>';
-  } else if(type==='immagine'){
-    const url=data&&data.url?data.url:'';
-    contentHTML=''
-      +'<div style="display:flex;gap:6px;margin-bottom:8px">'
-      +'<button onclick="openImgBB()" style="display:flex;align-items:center;gap:5px;padding:6px 12px;background:#1a7fe8;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:sans-serif">&#128247; Carica su ImgBB</button>'
-      +'<button class="btn-paste-imgbb" style="display:flex;align-items:center;gap:5px;padding:6px 12px;background:#f0ede8;color:#6b6560;border:1px solid #e2ddd8;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:sans-serif">&#128203; Incolla link ImgBB</button>'
-      +'</div>'
-      +'<input class="block-url-input imgbb-url-input" type="text" placeholder="Oppure incolla direttamente https://i.ibb.co/..." value="'+esc(url)+'">'
-      +'<div class="block-preview">'+(url?'<img src="'+esc(url)+'" onerror="this.closest(\'.block-preview\').style.display=\'none\'">':'')+'</div>'
-      +'<div style="font-size:10px;color:#a09890;margin-top:4px">Carica su ImgBB poi clicca Incolla link ImgBB e incolla il link della pagina (es: https://ibb.co/xxx)</div>';
-    setTimeout(()=>{
-      const inp=div.querySelector('.imgbb-url-input');
-      const prev=div.querySelector('.block-preview');
-      const pasteBtn=div.querySelector('.btn-paste-imgbb');
-      if(pasteBtn){
-        pasteBtn.addEventListener('click',async function(){
-          try{
-            const text=await navigator.clipboard.readText();
-            if(inp) inp.value=text.trim();
-            const direct=convertImgBBUrl(text.trim());
-            if(inp) inp.value=direct;
-            if(prev&&direct){prev.style.display='';prev.innerHTML='<img src="'+direct+'" onerror="this.closest(\'.block-preview\').style.display=\'none\'">';}
-          }catch(e){
-            const text=prompt('Incolla il link ImgBB qui:');
-            if(text&&inp){
-              const direct=convertImgBBUrl(text.trim());
-              inp.value=direct;
-              if(prev&&direct){prev.style.display='';prev.innerHTML='<img src="'+direct+'" onerror="this.closest(\'.block-preview\').style.display=\'none\'">';}
-            }
-          }
-        });
-      }
-      if(inp){
-        inp.addEventListener('blur',function(){
-          const val=convertImgBBUrl(this.value.trim());
-          if(val!==this.value) this.value=val;
-          if(prev&&val){prev.style.display='';prev.innerHTML='<img src="'+val+'" onerror="this.closest(\'.block-preview\').style.display=\'none\'">';}
-        });
-      }
-    },0);
-  } else if(type==='video'){
-    const url=data&&data.url?data.url:'';
-    contentHTML='<input class="block-url-input" type="text" placeholder="URL YouTube (es: https://youtu.be/...)" value="'+esc(url)+'">'
-      +'<div style="font-size:10px;color:var(--text3);margin-top:4px">Incolla l\'URL di YouTube</div>';
-  } else if(type==='avviso'){
-    const color=data&&data.color?data.color:'giallo';
-    contentHTML='<select class="avviso-select">'
-      +'<option value="giallo"'+(color==='giallo'?' selected':'')+'">⚠️ Attenzione (giallo)</option>'
-      +'<option value="rosso"'+(color==='rosso'?' selected':'')+'">🔴 Pericolo (rosso)</option>'
-      +'<option value="verde"'+(color==='verde'?' selected':'')+'">✅ Nota (verde)</option>'
-      +'<option value="blu"'+(color==='blu'?' selected':'')+'">ℹ️ Info (blu)</option>'
-      +'</select>'
-      +'<textarea class="block-input" placeholder="Testo dell\'avviso..." rows="2">'+(data&&data.text?esc(data.text):'')+'</textarea>';
+  list.appendChild(div);
+  renumberSections();
+
+  if (data && data.blocks) data.blocks.forEach(b => addBlock(sid, b.type, b));
+}
+
+function toggleSection(sid) {
+  const body   = document.getElementById('body-' + sid);
+  const toggle = body.previousElementSibling.querySelector('.sub-toggle');
+  const isCollapsed = body.classList.toggle('collapsed');
+  toggle.classList.toggle('open', !isCollapsed);
+}
+
+function removeSection(sid) {
+  document.querySelector(`[data-sid="${sid}"]`).remove();
+  renumberSections();
+}
+
+function renumberSections() {
+  document.querySelectorAll('#sub-list .sub-item').forEach((item, i) => {
+    const n = item.querySelector('.sub-num');
+    if (n) n.textContent = i + 1;
+  });
+}
+
+// ===== BLOCKS =====
+function addBlock(sid, type, data) {
+  const area = document.getElementById('blocks-' + sid);
+  if (!area) return;
+  const div = document.createElement('div');
+  div.className = 'block-item';
+  div.dataset.type = type;
+
+  let contentHTML = '';
+
+  if (type === 'testo') {
+    contentHTML = `<textarea class="block-ta" placeholder="Scrivi il testo..." rows="3">${esc(data && data.text ? data.text : '')}</textarea>`;
+  } else if (type === 'passaggio') {
+    const stepNum = area.querySelectorAll('[data-type="passaggio"]').length + 1;
+    contentHTML = `<div style="display:flex;gap:9px;align-items:flex-start">
+      <div class="step-counter" style="width:22px;height:22px;background:var(--text);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:3px;font-family:'DM Mono',monospace">${stepNum}</div>
+      <textarea class="block-ta" placeholder="Descrivi il passaggio..." rows="2" style="flex:1">${esc(data && data.text ? data.text : '')}</textarea>
+    </div>`;
+  } else if (type === 'lista') {
+    contentHTML = `<textarea class="block-ta mono" placeholder="Una voce per riga..." rows="3">${esc(data && data.text ? data.text : '')}</textarea>
+      <div style="font-size:10px;color:var(--text3);margin-top:3px">Ogni riga diventa un punto elenco</div>`;
+  } else if (type === 'immagine') {
+    const url = data && data.url ? data.url : '';
+    contentHTML = `<div style="display:flex;gap:5px;margin-bottom:6px">
+        <button onclick="openImgBB()" style="padding:5px 10px;background:#1a7fe8;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;font-family:sans-serif">📷 ImgBB</button>
+        <button class="btn-paste-img" style="padding:5px 10px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:7px;font-size:11px;cursor:pointer;font-family:sans-serif">📋 Incolla link</button>
+      </div>
+      <input class="block-url imgbb-url" type="text" placeholder="https://i.ibb.co/..." value="${esc(url)}">
+      <div class="block-preview">${url ? `<img src="${esc(url)}" onerror="this.closest('.block-preview').style.display='none'">` : ''}</div>`;
+    setTimeout(() => {
+      const inp  = div.querySelector('.imgbb-url');
+      const prev = div.querySelector('.block-preview');
+      div.querySelector('.btn-paste-img').addEventListener('click', async () => {
+        try {
+          const t = await navigator.clipboard.readText();
+          if (inp) { inp.value = t.trim(); updateImgPreview(inp, prev); }
+        } catch(_) {
+          const t = prompt('Incolla il link immagine:');
+          if (t && inp) { inp.value = t.trim(); updateImgPreview(inp, prev); }
+        }
+      });
+      if (inp) inp.addEventListener('blur', () => updateImgPreview(inp, prev));
+    }, 0);
+  } else if (type === 'video') {
+    const url = data && data.url ? data.url : '';
+    contentHTML = `<input class="block-url" type="text" placeholder="URL YouTube (https://youtu.be/...)" value="${esc(url)}">`;
+  } else if (type === 'avviso') {
+    const color = data && data.color ? data.color : 'giallo';
+    contentHTML = `<select class="avviso-sel">
+      <option value="giallo"${color==='giallo'?' selected':''}>⚠️ Attenzione (giallo)</option>
+      <option value="rosso"${color==='rosso'?' selected':''}>🔴 Pericolo (rosso)</option>
+      <option value="verde"${color==='verde'?' selected':''}>✅ Nota (verde)</option>
+      <option value="blu"${color==='blu'?' selected':''}>ℹ️ Info (blu)</option>
+    </select>
+    <textarea class="block-ta" placeholder="Testo dell'avviso..." rows="2">${esc(data && data.text ? data.text : '')}</textarea>`;
   }
 
-  div.innerHTML='<div class="block-header">'
-    +'<span class="block-drag">⠿</span>'
-    +'<span class="block-type-badge '+type+'">'+BLOCK_LABELS[type]+'</span>'
-    +'<div class="block-actions-right">'
-    +'<button class="block-btn" onclick="moveBlock(this,-1)" title="Su">^</button>'
-    +'<button class="block-btn" onclick="moveBlock(this,1)" title="Giu">v</button>'
-    +'<button class="block-btn" onclick="removeBlock(this)" title="Elimina">✕</button>'
-    +'</div></div>'
-    +'<div class="block-content">'+contentHTML+'</div>';
+  div.innerHTML = `<div class="block-hd">
+    <span class="block-badge ${type}">${BLOCK_LABELS[type]}</span>
+    <div class="block-btns">
+      <button class="block-btn" onclick="moveBlock(this,-1)">↑</button>
+      <button class="block-btn" onclick="moveBlock(this,1)">↓</button>
+      <button class="block-btn" onclick="removeBlock(this)">✕</button>
+    </div>
+  </div><div class="block-body">${contentHTML}</div>`;
 
   area.appendChild(div);
 
-  // Auto-resize textareas
-  div.querySelectorAll('textarea').forEach(ta=>{
-    ta.addEventListener('input',()=>{ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';});
-    ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';
+  div.querySelectorAll('textarea').forEach(ta => {
+    ta.addEventListener('input', () => { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; });
+    ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px';
   });
+
+  reNumberPassaggi(area);
 }
 
-function removeBlock(btn){
-  btn.closest('.block-item').remove();
-  reNumberSteps();
+function updateImgPreview(inp, prev) {
+  const val = inp.value.trim();
+  if (!val) return;
+  prev.style.display = '';
+  prev.innerHTML = `<img src="${val}" onerror="this.closest('.block-preview').style.display='none'">`;
 }
 
-function moveBlock(btn,dir){
-  const item=btn.closest('.block-item');
-  const area=document.getElementById('blocks-area');
-  const items=[...area.children];
-  const idx=items.indexOf(item);
-  const newIdx=idx+dir;
-  if(newIdx<0||newIdx>=items.length)return;
-  if(dir===-1)area.insertBefore(item,items[newIdx]);
-  else area.insertBefore(items[newIdx],item);
-  reNumberSteps();
+function removeBlock(btn) {
+  const item = btn.closest('.block-item');
+  const area = item.closest('.blocks-area');
+  item.remove();
+  reNumberPassaggi(area);
 }
 
-function reNumberSteps(){
-  let n=0;
-  document.querySelectorAll('#blocks-area .block-item').forEach(item=>{
-    if(item.dataset.type==='passaggio'){
+function moveBlock(btn, dir) {
+  const item  = btn.closest('.block-item');
+  const area  = item.closest('.blocks-area');
+  const items = [...area.children];
+  const idx   = items.indexOf(item);
+  const nIdx  = idx + dir;
+  if (nIdx < 0 || nIdx >= items.length) return;
+  dir === -1 ? area.insertBefore(item, items[nIdx]) : area.insertBefore(items[nIdx], item);
+  reNumberPassaggi(area);
+}
+
+function reNumberPassaggi(area) {
+  let n = 0;
+  area.querySelectorAll('.block-item').forEach(item => {
+    if (item.dataset.type === 'passaggio') {
       n++;
-      const c=item.querySelector('.step-counter');
-      if(c)c.textContent=n;
+      const c = item.querySelector('.step-counter');
+      if (c) c.textContent = n;
     }
   });
-  stepCounter=n;
 }
 
-// -- COLLECT --
-function collectBlocks(){
-  const blocks=[];
-  document.querySelectorAll('#blocks-area .block-item').forEach(item=>{
-    const type=item.dataset.type;
-    const ta=item.querySelector('textarea');
-    const inp=item.querySelector('.block-url-input');
-    const sel=item.querySelector('.avviso-select');
-    if(type==='testo'||type==='passaggio'||type==='lista'){
-      blocks.push({type,text:(ta?ta.value.trim():'')});
-    } else if(type==='immagine'||type==='video'){
-      blocks.push({type,url:(inp?inp.value.trim():'')});
-    } else if(type==='avviso'){
-      blocks.push({type,color:(sel?sel.value:'giallo'),text:(ta?ta.value.trim():'')});
-    }
+// ===== COLLECT =====
+function collectSections() {
+  return [...document.querySelectorAll('#sub-list .sub-item')].map(item => {
+    const sid  = item.dataset.sid;
+    const name = item.querySelector('.sub-name-input').value.trim();
+    const desc = item.querySelector('.sub-desc-input').value.trim();
+    const blocks = collectBlocksFromArea(document.getElementById('blocks-' + sid));
+    return { name, description: desc, blocks };
   });
-  return blocks;
 }
 
-function collectForm(){
-  const name=document.getElementById('f-name').value.trim();
-  if(!name){document.getElementById('f-name').focus();showToast('Inserisci il nome della procedura');return null;}
-  return{
+function collectBlocksFromArea(area) {
+  if (!area) return [];
+  return [...area.querySelectorAll('.block-item')].map(item => {
+    const type = item.dataset.type;
+    const ta   = item.querySelector('textarea');
+    const url  = item.querySelector('.block-url');
+    const sel  = item.querySelector('.avviso-sel');
+    if (['testo','passaggio','lista'].includes(type)) return { type, text: ta ? ta.value.trim() : '' };
+    if (['immagine','video'].includes(type))          return { type, url: url ? url.value.trim() : '' };
+    if (type === 'avviso') return { type, color: sel ? sel.value : 'giallo', text: ta ? ta.value.trim() : '' };
+    return { type };
+  });
+}
+
+function collectForm() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { document.getElementById('f-name').focus(); showToast('Inserisci il nome del gruppo'); return null; }
+  return {
     name,
-    category:document.getElementById('f-cat').value.trim()||'Generale',
-    description:document.getElementById('f-desc').value.trim(),
-    icon:selEmoji,
-    blocks:collectBlocks(),
-    status:document.getElementById('f-status').value,
+    category:    document.getElementById('f-cat').value.trim() || 'Generale',
+    description: document.getElementById('f-desc').value.trim(),
+    icon:   selEmoji,
+    status: document.getElementById('f-status').value,
+    sections: collectSections()
   };
 }
 
-function saveProc(status){
-  const data=collectForm();if(!data)return;
-  if(status)data.status=status;
-  upsert(data);save();closeModal('editor-modal');renderGrid();
+// ===== SAVE / PUBLISH =====
+async function saveDraft() {
+  const data = collectForm();
+  if (!data) return;
+  data.status = 'bozza';
+  upsert(data);
+  saveLocal();
+  closeModal('editor-modal');
+  renderGrid();
   showToast('💾 Bozza salvata');
+  pushDataOnly();
 }
 
-function saveAndDownload(){
-  const data=collectForm();if(!data)return;
-  data.status='attiva';
-  const proc=upsert(data);save();closeModal('editor-modal');renderGrid();
-  generateAndDownload(proc);
-}
+async function publishGroup() {
+  const data = collectForm();
+  if (!data) return;
 
-function redownload(id){const p=procs.find(x=>x.id===id);if(p)generateAndDownload(p);}
+  if (!getToken()) {
+    showToast('Configura prima il token GitHub');
+    openSettings();
+    return;
+  }
 
-function upsert(data){
-  const now=Date.now();
-  if(editingId){
-    const idx=procs.findIndex(p=>p.id===editingId);
-    const filename=procs[idx].filename||slugify(data.name)+'.html';
-    procs[idx]={...procs[idx],...data,filename,updatedAt:now};
-    return procs[idx];
-  }else{
-    const filename=slugify(data.name)+'.html';
-    const proc={id:'proc_'+now+'_'+Math.random().toString(36).slice(2,7),...data,filename,createdAt:now,updatedAt:now};
-    procs.unshift(proc);return proc;
+  data.status = 'attiva';
+  const group = upsert(data);
+  saveLocal();
+
+  const btn = document.getElementById('btn-publish');
+  btn.disabled = true;
+  btn.textContent = '↑ Pubblicazione in corso...';
+
+  const html = buildGroupHTML(group);
+  const ok   = await pushGroupToGitHub(group, html);
+
+  btn.disabled = false;
+  btn.textContent = '↑ Pubblica su GitHub';
+
+  if (ok) {
+    closeModal('editor-modal');
+    renderGrid();
+    const url = GH_PAGES + group.filename;
+    showToast('✓ Pubblicato su GitHub!');
+    setTimeout(() => {
+      if (confirm(`Procedura pubblicata!\n\n${url}\n\nAprire il link?`)) window.open(url, '_blank');
+    }, 400);
   }
 }
 
-function deleteCurrentProc(){
-  if(!editingId||!confirm('Eliminare questa procedura?'))return;
-  procs=procs.filter(p=>p.id!==editingId);
-  save();closeModal('editor-modal');renderGrid();showToast('🗑 Procedura eliminata');
+function upsert(data) {
+  const now = Date.now();
+  if (editingId) {
+    const idx = groups.findIndex(g => g.id === editingId);
+    const filename = groups[idx].filename || slugify(data.name) + '.html';
+    groups[idx] = { ...groups[idx], ...data, filename, updatedAt: now };
+    return groups[idx];
+  } else {
+    const filename = slugify(data.name) + '.html';
+    const g = { id: 'grp_' + now + '_' + Math.random().toString(36).slice(2, 7), ...data, filename, createdAt: now, updatedAt: now };
+    groups.unshift(g);
+    return g;
+  }
 }
 
-function slugify(name){
+function deleteCurrentGroup() {
+  if (!editingId || !confirm('Eliminare questo gruppo di procedure?')) return;
+  groups = groups.filter(g => g.id !== editingId);
+  saveLocal();
+  closeModal('editor-modal');
+  renderGrid();
+  showToast('🗑 Gruppo eliminato');
+  pushDataOnly();
+}
+
+// ===== HTML GENERATOR =====
+function buildGroupHTML(g) {
+  const sections = g.sections || [];
+
+  const toc = sections.length > 1 ? sections.map((s, i) => `
+    <a href="#sec-${i}" class="toc-item">
+      <span class="toc-num">${i + 1}</span>
+      <span class="toc-label">${esc(s.name || 'Sezione ' + (i + 1))}</span>
+    </a>`).join('') : '';
+
+  const body = sections.map((s, i) => {
+    let blocks = '';
+    let stepN  = 0;
+    (s.blocks || []).forEach(b => {
+      if (b.type === 'testo') {
+        blocks += `<div class="b-testo">${esc(b.text || '')}</div>`;
+      } else if (b.type === 'passaggio') {
+        stepN++;
+        blocks += `<div class="b-pass"><div class="pass-n">${stepN}</div><div class="pass-t">${esc(b.text || '')}</div></div>`;
+      } else if (b.type === 'lista') {
+        const items = (b.text || '').split('\n').map(l => l.trim()).filter(Boolean);
+        blocks += `<ul class="b-lista">${items.map(t => `<li>${esc(t)}</li>`).join('')}</ul>`;
+      } else if (b.type === 'immagine' && b.url) {
+        blocks += `<div class="b-img"><img src="${esc(b.url)}" alt="" loading="lazy" onerror="this.closest('.b-img').style.display='none'"></div>`;
+      } else if (b.type === 'video' && b.url) {
+        let embed = b.url;
+        const yt = b.url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/);
+        if (yt) embed = 'https://www.youtube.com/embed/' + yt[1];
+        blocks += `<div class="b-video"><iframe src="${esc(embed)}" frameborder="0" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe></div>`;
+      } else if (b.type === 'avviso') {
+        blocks += `<div class="b-avviso av-${esc(b.color || 'giallo')}">${esc(b.text || '')}</div>`;
+      }
+    });
+
+    return `<section class="sec" id="sec-${i}">
+  <div class="sec-hd">
+    <div class="sec-n">${i + 1}</div>
+    <div>
+      <h2 class="sec-title">${esc(s.name || 'Sezione ' + (i + 1))}</h2>
+      ${s.description ? `<p class="sec-desc">${esc(s.description)}</p>` : ''}
+    </div>
+  </div>
+  <div class="sec-body">${blocks || '<p class="empty-sec">Nessun contenuto.</p>'}</div>
+</section>`;
+  }).join('\n<div class="sec-divider"></div>\n');
+
+  return `<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(g.name)} — Big Ben</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f4f0;--s:#fff;--bd:#e2ddd8;--t:#1a1714;--t2:#6b6560;--t3:#a09890;--ac:#c8392b;--gr:#2a7a4b;--gl:#edf7f2;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;}
+header{background:var(--t);padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:10px;}
+.mark{width:26px;height:26px;background:var(--ac);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:'DM Mono',monospace;}
+.lt{font-size:13px;font-weight:500;color:#fff;}
+.back{font-size:12px;color:#888;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.back:hover{color:#fff;}
+.wrap{max-width:700px;margin:0 auto;padding:36px 22px 80px;}
+.gh{margin-bottom:26px;}
+.g-icon{font-size:44px;margin-bottom:10px;display:block;}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.badge.attiva{background:var(--gl);color:var(--gr);}
+.badge.bozza{background:#f0ede8;color:var(--t3);}
+.g-title{font-size:28px;font-weight:600;letter-spacing:-.5px;line-height:1.2;margin-bottom:5px;}
+.g-cat{font-size:12px;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;font-family:'DM Mono',monospace;}
+.g-desc{font-size:14px;color:var(--t2);line-height:1.6;}
+.toc{background:var(--s);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:30px;}
+.toc-lbl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.toc-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--t2);font-size:13px;transition:background .1s;}
+.toc-item:hover{background:var(--bg);color:var(--ac);}
+.toc-num{width:20px;height:20px;background:var(--t);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0;}
+.toc-label{font-weight:500;}
+.sec{margin-bottom:36px;}
+.sec-hd{display:flex;align-items:flex-start;gap:13px;margin-bottom:16px;padding-bottom:13px;border-bottom:2px solid var(--bd);}
+.sec-n{width:32px;height:32px;background:var(--ac);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0;margin-top:2px;}
+.sec-title{font-size:20px;font-weight:600;line-height:1.2;margin-bottom:3px;}
+.sec-desc{font-size:13px;color:var(--t2);}
+.sec-divider{height:1px;background:var(--bd);margin:32px 0;}
+.empty-sec{color:var(--t3);font-size:14px;font-style:italic;}
+.b-testo{font-size:15px;line-height:1.7;color:#3a3530;margin-bottom:16px;white-space:pre-wrap;}
+.b-pass{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;padding:13px 15px;background:var(--s);border:1px solid var(--bd);border-radius:11px;}
+.pass-n{width:26px;height:26px;background:#1a1714;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;font-family:'DM Mono',monospace;}
+.pass-t{font-size:15px;line-height:1.6;color:#1a1714;flex:1;white-space:pre-wrap;}
+.b-lista{margin-bottom:16px;list-style:none;padding:0;}
+.b-lista li{font-size:15px;line-height:1.6;color:#3a3530;padding:5px 0 5px 20px;position:relative;border-bottom:1px solid #f0ede8;}
+.b-lista li:last-child{border-bottom:none;}
+.b-lista li::before{content:'';position:absolute;left:5px;top:13px;width:6px;height:6px;border-radius:50%;background:var(--ac);}
+.b-img{margin-bottom:16px;}.b-img img{width:100%;border-radius:11px;border:1px solid var(--bd);display:block;}
+.b-video{margin-bottom:16px;}.b-video iframe{width:100%;aspect-ratio:16/9;border:none;display:block;border-radius:11px;}
+.b-avviso{margin-bottom:16px;border-radius:11px;padding:13px 16px;font-size:14px;line-height:1.6;white-space:pre-wrap;}
+.av-giallo{background:#fff8e8;border:1px solid #f0d080;color:#7a5a00;}
+.av-rosso{background:#fff0f0;border:1px solid #f0a0a0;color:#8a0000;}
+.av-verde{background:#f0fff4;border:1px solid #90d0a0;color:#1a5a2a;}
+.av-blu{background:#f0f8ff;border:1px solid #90c0e0;color:#003a6a;}
+@media(max-width:600px){.wrap{padding:24px 16px 60px;}.g-title{font-size:22px;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="mark">BB</div><div class="lt">Big Ben</div></div>
+  <button class="back" onclick="history.back()">&#8592; Indietro</button>
+</header>
+<div class="wrap">
+  <div class="gh">
+    <span class="g-icon">${g.icon || '📋'}</span>
+    <div class="badge ${g.status}">${g.status === 'attiva' ? '&#9679; Attivo' : '&#9679; Bozza'}</div>
+    <h1 class="g-title">${esc(g.name)}</h1>
+    <div class="g-cat">${esc(g.category || 'Generale')}</div>
+    ${g.description ? `<p class="g-desc">${esc(g.description)}</p>` : ''}
+  </div>
+  ${sections.length > 1 ? `<div class="toc"><div class="toc-lbl">Sezioni</div>${toc}</div>` : ''}
+  ${body}
+</div>
+</body>
+</html>`;
+}
+
+// ===== SETTINGS =====
+function openSettings() {
+  const token = getToken();
+  const inp = document.getElementById('gh-token');
+  inp.value = token || '';
+  inp.type = 'password';
+  document.getElementById('token-eye-btn').textContent = '👁';
+  document.getElementById('token-status').textContent = '';
+  document.getElementById('token-status').style.color = '';
+  openModal('settings-modal');
+}
+
+async function saveToken() {
+  const token = document.getElementById('gh-token').value.trim();
+  if (!token) { showToast('Inserisci un token valido'); return; }
+  localStorage.setItem(SK_TOKEN, token);
+  const st = document.getElementById('token-status');
+  st.textContent = 'Verifica token in corso...';
+  st.style.color = 'var(--text3)';
+  try {
+    const res = await fetch(`${API}/repos/${REPO}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' }
+    });
+    if (res.ok) {
+      st.textContent = '✓ Token valido — accesso al repository confermato';
+      st.style.color = 'var(--green)';
+      document.getElementById('no-token-banner').style.display = 'none';
+      setTimeout(() => { closeModal('settings-modal'); syncFromGitHub(); }, 900);
+    } else {
+      st.textContent = '✕ Token non valido o permessi insufficienti (HTTP ' + res.status + ')';
+      st.style.color = 'var(--accent)';
+    }
+  } catch(e) {
+    st.textContent = 'Errore di rete: ' + e.message;
+    st.style.color = 'var(--accent)';
+  }
+}
+
+function toggleTokenEye() {
+  const inp = document.getElementById('gh-token');
+  const btn = document.getElementById('token-eye-btn');
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+// ===== EMOJI =====
+function renderEmojiRow() {
+  document.getElementById('emoji-row').innerHTML = EMOJIS.map(e =>
+    `<button class="emoji-opt ${e === selEmoji ? 'selected' : ''}" onclick="selectEmoji('${e}')">${e}</button>`
+  ).join('');
+}
+function selectEmoji(e) { selEmoji = e; renderEmojiRow(); }
+
+// ===== UTILS =====
+function slugify(name) {
   return name.toLowerCase()
     .replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e').replace(/[ìíîï]/g,'i')
-    .replace(/[òóôõö]/g,'o').replace(/[uúûü]/g,'u').replace(/[ñ]/g,'n')
+    .replace(/[òóôõö]/g,'o').replace(/[ùúûü]/g,'u').replace(/[ñ]/g,'n')
     .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 }
 
-// -- EMOJI --
-function renderEmojiRow(){
-  document.getElementById('emoji-row').innerHTML=EMOJIS.map(e=>
-    '<button class="emoji-opt '+(e===selEmoji?'selected':'')+'" onclick="selectEmoji(\''+e+'\')">'+e+'</button>'
-  ).join('');
-}
-function selectEmoji(e){selEmoji=e;renderEmojiRow();}
-
-// -- FILE GENERATOR --
-function generateAndDownload(proc){
-  const html=buildHTML(proc);
-  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download=proc.filename;
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
-  dlLink=GITHUB_BASE+proc.filename;
-  document.getElementById('dl-filename').textContent=proc.filename;
-  document.getElementById('dl-link').textContent=dlLink;
-  document.getElementById('btn-copy').textContent='📋 Copia link';
-  document.getElementById('btn-copy').classList.remove('copied');
-  openModal('download-modal');
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
-function copyLink(){
-  navigator.clipboard.writeText(dlLink).catch(()=>fallbackCopy(dlLink));
-  const btn=document.getElementById('btn-copy');
-  btn.textContent='Copiato!';btn.classList.add('copied');
-  setTimeout(()=>{btn.textContent='📋 Copia link';btn.classList.remove('copied');},2000);
+function openImgBB() { window.open('https://imgbb.com','_blank'); }
+
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) closeModal(el.id); });
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-function buildHTML(p){
-  const blocks=p.blocks||[];
-  let stepN=0;
-  let bodyContent='';
+// ===== INIT =====
+loadLocal();
+renderGrid();
 
-  blocks.forEach(b=>{
-    if(b.type==='testo'){
-      bodyContent+='<div class="block-testo">'+escNL(b.text||'')+'</div>';
-    } else if(b.type==='passaggio'){
-      stepN++;
-      bodyContent+='<div class="block-passaggio">'
-        +'<div class="pass-num">'+stepN+'</div>'
-        +'<div class="pass-text">'+escNL(b.text||'')+'</div>'
-        +'</div>';
-    } else if(b.type==='lista'){
-      const items=(b.text||'').split('\n').map(l=>l.trim()).filter(Boolean);
-      bodyContent+='<ul class="block-lista">'
-        +items.map(i=>'<li>'+esc(i)+'</li>').join('')
-        +'</ul>';
-    } else if(b.type==='immagine'&&b.url){
-      bodyContent+='<div class="block-immagine"><img src="'+esc(b.url)+'" alt="" loading="lazy" onerror="this.closest(\'.block-immagine\').style.display=\'none\'"></div>';
-    } else if(b.type==='video'&&b.url){
-      let embedUrl=b.url;
-      const yt=b.url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/);
-      if(yt)embedUrl='https://www.youtube.com/embed/'+yt[1];
-      bodyContent+='<div class="block-video"><iframe src="'+esc(embedUrl)+'" frameborder="0" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe></div>';
-    } else if(b.type==='avviso'){
-      bodyContent+='<div class="block-avviso avviso-'+esc(b.color||'giallo')+'">'+escNL(b.text||'')+'</div>';
-    }
-  });
-
-  const css = '.block-testo{font-size:15px;line-height:1.7;color:#3a3530;margin-bottom:18px;white-space:pre-wrap;}'
-    +'.block-passaggio{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;padding:14px 16px;background:#fff;border:1px solid #e2ddd8;border-radius:12px;}'
-    +'.pass-num{width:28px;height:28px;background:#1a1714;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px;font-family:\'DM Mono\',monospace;}'
-    +'.pass-text{font-size:15px;line-height:1.6;color:#1a1714;flex:1;white-space:pre-wrap;}'
-    +'.block-lista{margin-bottom:18px;padding-left:0;list-style:none;}'
-    +'.block-lista li{font-size:15px;line-height:1.6;color:#3a3530;padding:5px 0 5px 22px;position:relative;border-bottom:1px solid #f0ede8;}'
-    +'.block-lista li:last-child{border-bottom:none;}'
-    +'.block-lista li::before{content:"";position:absolute;left:6px;top:13px;width:6px;height:6px;border-radius:50%;background:#c8392b;}'
-    +'.block-immagine{margin-bottom:18px;border-radius:12px;overflow:hidden;}'
-    +'.block-immagine img{width:100%;display:block;border-radius:12px;border:1px solid #e2ddd8;}'
-    +'.block-video{margin-bottom:18px;border-radius:12px;overflow:hidden;}'
-    +'.block-video iframe{width:100%;aspect-ratio:16/9;border:none;display:block;border-radius:12px;}'
-    +'.block-avviso{margin-bottom:18px;border-radius:12px;padding:14px 18px;font-size:14px;line-height:1.6;white-space:pre-wrap;}'
-    +'.avviso-giallo{background:#fff8e8;border:1px solid #f0d080;color:#7a5a00;}'
-    +'.avviso-rosso{background:#fff0f0;border:1px solid #f0a0a0;color:#8a0000;}'
-    +'.avviso-verde{background:#f0fff4;border:1px solid #90d0a0;color:#1a5a2a;}'
-    +'.avviso-blu{background:#f0f8ff;border:1px solid #90c0e0;color:#003a6a;}';
-
-  return '<!DOCTYPE html>\n<html lang="it">\n<head>\n'
-    +'<meta charset="UTF-8">\n'
-    +'<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
-    +'<title>'+esc(p.name)+' \u2014 Big Ben</title>\n'
-    +'<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">\n'
-    +'<style>\n'
-    +':root{--bg:#f5f4f0;--surface:#fff;--border:#e2ddd8;--text:#1a1714;--text2:#6b6560;--text3:#a09890;--accent:#c8392b;--green:#2a7a4b;--green-light:#edf7f2;}\n'
-    +'*{box-sizing:border-box;margin:0;padding:0;}\n'
-    +'body{font-family:\'DM Sans\',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}\n'
-    +'header{background:var(--text);padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;}\n'
-    +'.logo{display:flex;align-items:center;gap:10px;}\n'
-    +'.logo-mark{width:26px;height:26px;background:var(--accent);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:\'DM Mono\',monospace;}\n'
-    +'.logo-text{font-size:13px;font-weight:500;color:#fff;}\n'
-    +'.back-btn{font-size:12px;color:#666;background:none;border:none;cursor:pointer;font-family:\'DM Sans\',sans-serif;}\n'
-    +'.back-btn:hover{color:#fff;}\n'
-    +'.container{max-width:680px;margin:0 auto;padding:36px 24px 80px;}\n'
-    +'.proc-header{margin-bottom:28px;}\n'
-    +'.proc-icon-big{font-size:42px;margin-bottom:10px;display:block;}\n'
-    +'.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}\n'
-    +'.badge.attiva{background:var(--green-light);color:var(--green);}\n'
-    +'.badge.bozza{background:#f0ede8;color:var(--text3);}\n'
-    +'.proc-title{font-size:26px;font-weight:600;letter-spacing:-.5px;line-height:1.2;margin-bottom:5px;}\n'
-    +'.proc-cat{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;font-family:\'DM Mono\',monospace;}\n'
-    +'.proc-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:4px;}\n'
-    +'.divider{height:1px;background:var(--border);margin:22px 0;}\n'
-    +css+'\n'
-    +'</style>\n</head>\n<body>\n'
-    +'<header>\n'
-    +'  <div class="logo"><div class="logo-mark">BB</div><div class="logo-text">Big Ben</div></div>\n'
-    +'  <button class="back-btn" onclick="history.back()">&#8592; Indietro</button>\n'
-    +'</header>\n'
-    +'<div class="container">\n'
-    +'<div class="proc-header">\n'
-    +'  <span class="proc-icon-big">'+(p.icon||'📋')+'</span>\n'
-    +'  <div class="badge '+p.status+'">'+(p.status==='attiva'?'&#9679; Attiva':'&#9679; Bozza')+'</div>\n'
-    +'  <h1 class="proc-title">'+esc(p.name)+'</h1>\n'
-    +'  <div class="proc-cat">'+esc(p.category||'Generale')+'</div>\n'
-    +(p.description?'  <div class="proc-desc">'+esc(p.description)+'</div>\n':'')
-    +'</div>\n'
-    +'<div class="divider"></div>\n'
-    +bodyContent+'\n'
-    +'</div>\n</body>\n</html>';
+if (getToken()) {
+  syncFromGitHub();
+} else {
+  document.getElementById('no-token-banner').style.display = 'flex';
 }
-
-function escNL(s){return esc(s);}
-function openImgBB(){window.open('https://imgbb.com','_blank');}
-
-function convertImgBBUrl(url){
-  if(!url)return url;
-  // Already a direct link
-  if(url.match(/^https?:\/\/i\.ibb\.co\//))return url;
-  // Page link: https://ibb.co/XXXXX - fetch not possible due to CORS
-  // Use known pattern: ibb.co/CODE -> i.ibb.co/CODE/filename not guessable
-  // So prompt user to right-click and copy image address instead
-  // But we can try: if user pastes ibb.co link, show instruction
-  if(url.match(/^https?:\/\/ibb\.co\//)){
-    showToast('Usa il link diretto: clicca destro sull\'immagine su ImgBB -> Copia indirizzo immagine');
-    return url;
-  }
-  return url;
-}
-
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-function fallbackCopy(t){const el=document.createElement('textarea');el.value=t;document.body.appendChild(el);el.select();document.execCommand('copy');document.body.removeChild(el);}
-
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.modal-overlay').forEach(el=>{el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id);});});
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
-
-load();renderGrid();
 </script>
 </body>
 </html>
