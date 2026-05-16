@@ -2,25 +2,40 @@
   "groups": [
     {
       "id": "grp_1778957026761_3nrel",
-      "name": "prova",
+      "name": "Nome",
       "icon": "📋",
       "sections": [
         {
-          "name": "prova",
-          "description": "prova",
-          "blocks": []
+          "name": "Prima sezione",
+          "description": "descrizione",
+          "blocks": [
+            {
+              "type": "testo",
+              "text": "Proviamo a scrivere qualcosa"
+            }
+          ]
         },
         {
           "name": "prova",
           "description": "prova a descrivere",
           "blocks": []
+        },
+        {
+          "name": "Terza sezione",
+          "description": "descrizione tre",
+          "blocks": [
+            {
+              "type": "lista",
+              "text": "fare questo\nfare quello\ne fare quell'altro"
+            }
+          ]
         }
       ],
       "status": "attiva",
       "filename": "prova.html",
       "createdAt": 1778957026761,
-      "updatedAt": 1778957136635
+      "updatedAt": 1778957214142
     }
   ],
-  "updatedAt": 1778957137330
+  "updatedAt": 1778957215364
 }
