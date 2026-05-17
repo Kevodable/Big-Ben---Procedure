@@ -3,7 +3,7 @@
     {
       "id": "grp_1779003133448_mqbik",
       "name": "Apertura mattina",
-      "icon": "📋",
+      "icon": "⚡",
       "sections": [
         {
           "name": "",
@@ -14,8 +14,8 @@
       "status": "attiva",
       "filename": "apertura-mattina.html",
       "createdAt": 1779003133448,
-      "updatedAt": 1779003133448
+      "updatedAt": 1779003233882
     }
   ],
-  "updatedAt": 1779003134739
+  "updatedAt": 1779003234794
 }
