@@ -15,43 +15,7 @@
       "filename": "prova.html",
       "createdAt": 1779002936414,
       "updatedAt": 1779002965913
-    },
-    {
-      "id": "grp_1778957026761_3nrel",
-      "name": "Nome",
-      "icon": "📋",
-      "sections": [
-        {
-          "name": "Prima sezione",
-          "description": "descrizione",
-          "blocks": [
-            {
-              "type": "testo",
-              "text": "Proviamo a scrivere qualcosa"
-            }
-          ]
-        },
-        {
-          "name": "prova",
-          "description": "prova a descrivere",
-          "blocks": []
-        },
-        {
-          "name": "Terza sezione",
-          "description": "descrizione tre",
-          "blocks": [
-            {
-              "type": "lista",
-              "text": "fare questo\nfare quello\ne fare quell'altro"
-            }
-          ]
-        }
-      ],
-      "status": "attiva",
-      "filename": "prova.html",
-      "createdAt": 1778957026761,
-      "updatedAt": 1778957214142
     }
   ],
-  "updatedAt": 1779002966674
+  "updatedAt": 1779002992428
 }
