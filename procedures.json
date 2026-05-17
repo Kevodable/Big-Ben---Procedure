@@ -1,21 +1,4 @@
 {
-  "groups": [
-    {
-      "id": "grp_1779002936414_brdgj",
-      "name": "provaaa",
-      "icon": "📋",
-      "sections": [
-        {
-          "name": "",
-          "description": "",
-          "blocks": []
-        }
-      ],
-      "status": "attiva",
-      "filename": "prova.html",
-      "createdAt": 1779002936414,
-      "updatedAt": 1779002965913
-    }
-  ],
-  "updatedAt": 1779002992428
+  "groups": [],
+  "updatedAt": 1779002997515
 }
