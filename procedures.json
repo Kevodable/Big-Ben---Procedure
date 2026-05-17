@@ -1,4 +1,21 @@
 {
-  "groups": [],
-  "updatedAt": 1779002997515
+  "groups": [
+    {
+      "id": "grp_1779003133448_mqbik",
+      "name": "Apertura mattina",
+      "icon": "📋",
+      "sections": [
+        {
+          "name": "",
+          "description": "",
+          "blocks": []
+        }
+      ],
+      "status": "attiva",
+      "filename": "apertura-mattina.html",
+      "createdAt": 1779003133448,
+      "updatedAt": 1779003133448
+    }
+  ],
+  "updatedAt": 1779003134739
 }
