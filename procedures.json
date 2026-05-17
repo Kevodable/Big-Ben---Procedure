@@ -2,20 +2,30 @@
   "groups": [
     {
       "id": "grp_1779003133448_mqbik",
-      "name": "Apertura mattina",
+      "name": "Aperture",
       "icon": "⚡",
       "sections": [
         {
-          "name": "",
+          "name": "Esterno",
           "description": "",
-          "blocks": []
+          "blocks": [
+            {
+              "type": "lista",
+              "text": "Portare fuori 4/5 macchinine."
+            },
+            {
+              "type": "avviso",
+              "color": "giallo",
+              "text": "Fare attenzione a mettere i cavi in ordine negli appositi spazi"
+            }
+          ]
         }
       ],
-      "status": "attiva",
+      "status": "bozza",
       "filename": "apertura-mattina.html",
       "createdAt": 1779003133448,
-      "updatedAt": 1779003233882
+      "updatedAt": 1779022343617
     }
   ],
-  "updatedAt": 1779003234794
+  "updatedAt": 1779022343619
 }
