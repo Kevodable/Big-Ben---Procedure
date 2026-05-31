@@ -1,6 +1,27 @@
 {
   "groups": [
     {
+      "id": "grp_1780246834129_stci5",
+      "name": "CHECK GENERALE GIOCHI",
+      "icon": "📋",
+      "sections": [
+        {
+          "name": "",
+          "description": "Controllo generale e superficiale dei giochi. Utilizzare vista, tatto e orecchie.",
+          "blocks": [
+            {
+              "type": "lista",
+              "text": "Controllo di tutti i pulsanti, funzionamento e fissaggio (prendendo il pulsante in mano e muoverlo.\nControllo di tutte le luci in vista dall'esterno\nControllo generale delle funzionalità del gioco"
+            }
+          ]
+        }
+      ],
+      "status": "bozza",
+      "filename": "check-generale-giochi.html",
+      "createdAt": 1780246834129,
+      "updatedAt": 1780246834129
+    },
+    {
       "id": "grp_1779003133448_mqbik",
       "name": "Aperture",
       "icon": "⚡",
@@ -27,5 +48,5 @@
       "updatedAt": 1779022354187
     }
   ],
-  "updatedAt": 1779022355454
+  "updatedAt": 1780246834131
 }
