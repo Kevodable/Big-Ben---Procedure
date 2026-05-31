@@ -16,10 +16,10 @@
           ]
         }
       ],
-      "status": "bozza",
+      "status": "attiva",
       "filename": "check-generale-giochi.html",
       "createdAt": 1780246834129,
-      "updatedAt": 1780246834129
+      "updatedAt": 1780246844831
     },
     {
       "id": "grp_1779003133448_mqbik",
@@ -48,5 +48,5 @@
       "updatedAt": 1779022354187
     }
   ],
-  "updatedAt": 1780246834131
+  "updatedAt": 1780246846204
 }
