@@ -7,7 +7,7 @@
       "sections": [
         {
           "name": "",
-          "description": "Controllo generale e superficiale dei giochi. Utilizzare vista, tatto e orecchie.",
+          "description": "Controllo generale e superficiale dei giochi. Utilizzare vista, tatto e udito.",
           "blocks": [
             {
               "type": "avviso",
@@ -24,7 +24,7 @@
       "status": "attiva",
       "filename": "check-generale-giochi.html",
       "createdAt": 1780246834129,
-      "updatedAt": 1780412896629
+      "updatedAt": 1780412967715
     },
     {
       "id": "grp_1779003133448_mqbik",
@@ -53,5 +53,5 @@
       "updatedAt": 1779022354187
     }
   ],
-  "updatedAt": 1780412897741
+  "updatedAt": 1780412969744
 }
