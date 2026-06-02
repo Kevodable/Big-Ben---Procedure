@@ -413,9 +413,11 @@ async function pushGroupToGitHub(group, htmlContent) {
     if (!ghMeta.fileShas) ghMeta.fileShas = {};
     ghMeta.fileShas[group.filename] = htmlRes.content.sha;
 
-    // Push updated procedures.json
+    // Fetch fresh SHA of procedures.json before pushing (avoids stale SHA conflicts)
+    const currentData = await ghGet(DATA_PATH);
+    const dataSha = currentData ? currentData.sha : undefined;
     const dataJson = JSON.stringify({ groups, updatedAt: Date.now() }, null, 2);
-    const dataRes  = await ghPut(DATA_PATH, dataJson, ghMeta.dataSha, 'Update procedures index');
+    const dataRes  = await ghPut(DATA_PATH, dataJson, dataSha, 'Update procedures index');
     ghMeta.dataSha = dataRes.content.sha;
 
     saveLocal();
@@ -431,8 +433,10 @@ async function pushGroupToGitHub(group, htmlContent) {
 async function pushDataOnly() {
   if (!getToken()) return;
   try {
+    const currentData = await ghGet(DATA_PATH);
+    const dataSha = currentData ? currentData.sha : undefined;
     const dataJson = JSON.stringify({ groups, updatedAt: Date.now() }, null, 2);
-    const res = await ghPut(DATA_PATH, dataJson, ghMeta.dataSha, 'Update procedures index');
+    const res = await ghPut(DATA_PATH, dataJson, dataSha, 'Update procedures index');
     ghMeta.dataSha = res.content.sha;
     saveLocal();
   } catch(_) {}
