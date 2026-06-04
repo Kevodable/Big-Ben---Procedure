@@ -7,8 +7,13 @@
       "sections": [
         {
           "name": "CHECK FUNZIONALITA'",
-          "description": "",
+          "description": "Controllo generale e superficiale dei giochi. Utilizzare vista, tatto e udito.",
           "blocks": [
+            {
+              "type": "avviso",
+              "color": "giallo",
+              "text": "Segnalare tramite APP e QR ogni anomalia trovata"
+            },
             {
               "type": "lista",
               "text": "Controllo di tutti i pulsanti, funzionamento e fissaggio (prendendo il pulsante in mano e muoverlo.\nControllo di tutte le luci in vista dall'esterno\nControllo generale delle funzionalità del gioco facendo una partita di prova"
@@ -16,10 +21,10 @@
           ]
         }
       ],
-      "status": "bozza",
+      "status": "attiva",
       "filename": "check-generale-giochi.html",
       "createdAt": 1780595508036,
-      "updatedAt": 1780595508036
+      "updatedAt": 1780595568536
     },
     {
       "id": "grp_1780595254115_paczr",
@@ -63,32 +68,6 @@
       "updatedAt": 1780595254115
     },
     {
-      "id": "grp_1780246834129_stci5",
-      "name": "CHECK GENERALE GIOCHI",
-      "icon": "📋",
-      "sections": [
-        {
-          "name": "CHECK FUNZIONALITA' GIOCHI",
-          "description": "Controllo generale e superficiale dei giochi. Utilizzare vista, tatto e udito.",
-          "blocks": [
-            {
-              "type": "avviso",
-              "color": "giallo",
-              "text": "Segnalare tramite APP e QR ogni anomalia trovata"
-            },
-            {
-              "type": "lista",
-              "text": "Controllo di tutti i pulsanti, funzionamento e fissaggio (prendendo il pulsante in mano e muoverlo.\nControllo di tutte le luci in vista dall'esterno\nControllo generale delle funzionalità del gioco facendo una partita di prova"
-            }
-          ]
-        }
-      ],
-      "status": "attiva",
-      "filename": "check-generale-giochi.html",
-      "createdAt": 1780246834129,
-      "updatedAt": 1780595432386
-    },
-    {
       "id": "grp_1779003133448_mqbik",
       "name": "Aperture",
       "icon": "⚡",
@@ -115,5 +94,5 @@
       "updatedAt": 1779022354187
     }
   ],
-  "updatedAt": 1780595508419
+  "updatedAt": 1780595569983
 }
