@@ -1,6 +1,27 @@
 {
   "groups": [
     {
+      "id": "grp_1780595508036_xwmq7",
+      "name": "CHECK GENERALE GIOCHI",
+      "icon": "📋",
+      "sections": [
+        {
+          "name": "CHECK FUNZIONALITA'",
+          "description": "",
+          "blocks": [
+            {
+              "type": "lista",
+              "text": "Controllo di tutti i pulsanti, funzionamento e fissaggio (prendendo il pulsante in mano e muoverlo.\nControllo di tutte le luci in vista dall'esterno\nControllo generale delle funzionalità del gioco facendo una partita di prova"
+            }
+          ]
+        }
+      ],
+      "status": "bozza",
+      "filename": "check-generale-giochi.html",
+      "createdAt": 1780595508036,
+      "updatedAt": 1780595508036
+    },
+    {
       "id": "grp_1780595254115_paczr",
       "name": "MACCHININE",
       "icon": "📋",
@@ -94,5 +115,5 @@
       "updatedAt": 1779022354187
     }
   ],
-  "updatedAt": 1780595433530
+  "updatedAt": 1780595508419
 }
