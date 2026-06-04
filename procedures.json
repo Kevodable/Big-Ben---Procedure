@@ -73,17 +73,56 @@
       "icon": "⚡",
       "sections": [
         {
-          "name": "Esterno",
+          "name": "APERTURA MACCHININE",
+          "description": "",
+          "blocks": [
+            {
+              "type": "avviso",
+              "color": "giallo",
+              "text": "Fare attenzione a mettere i cavi in ordine"
+            },
+            {
+              "type": "lista",
+              "text": "Portare fuori 4/5 macchinine."
+            }
+          ]
+        },
+        {
+          "name": "APERTURA DA STEFANO",
           "description": "",
           "blocks": [
             {
               "type": "lista",
-              "text": "Portare fuori 4/5 macchinine."
-            },
+              "text": ""
+            }
+          ]
+        },
+        {
+          "name": "APERTURA SALA DIETRO",
+          "description": "",
+          "blocks": []
+        },
+        {
+          "name": "APERTURA SALA PRINCIPALE",
+          "description": "",
+          "blocks": []
+        },
+        {
+          "name": "APERTURA SALA SOPRA",
+          "description": "",
+          "blocks": [
             {
               "type": "avviso",
               "color": "giallo",
-              "text": "Fare attenzione a mettere i cavi in ordine negli appositi spazi"
+              "text": "Se c'è qualche problema di qualche gioco fare segnalazione tramite l'apposita APP e QR."
+            },
+            {
+              "type": "testo",
+              "text": "Alzare LENTAMENTE gli interruttori previsti in modo verticale, partendo dall'alto verso il basso seguendo le singole colonna formate da un solo interruttore alla volta."
+            },
+            {
+              "type": "lista",
+              "text": "Controllare che tutti i giochi si siano accesi correttamente.\nSe un gioco non si accende proprio controllare spina di alimentazione dietro lo stesso\nSe il gioco non riaccende correttamente fare segnalazione tramite l'apposita APP e QR"
             }
           ]
         }
@@ -91,8 +130,8 @@
       "status": "attiva",
       "filename": "apertura-mattina.html",
       "createdAt": 1779003133448,
-      "updatedAt": 1779022354187
+      "updatedAt": 1780596749496
     }
   ],
-  "updatedAt": 1780595569983
+  "updatedAt": 1780596751724
 }
