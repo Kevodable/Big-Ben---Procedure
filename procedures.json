@@ -1,6 +1,47 @@
 {
   "groups": [
     {
+      "id": "grp_1780595254115_paczr",
+      "name": "MACCHININE",
+      "icon": "📋",
+      "sections": [
+        {
+          "name": "INSERIMENTO MACCHININE IN PISTA",
+          "description": "",
+          "blocks": [
+            {
+              "type": "avviso",
+              "color": "giallo",
+              "text": "ORDINARE I CAVI STACCATI PRIMA DI SPUNTARE LA TASK"
+            },
+            {
+              "type": "lista",
+              "text": "Una volta staccata l'alimentazione controllare che il cavo interno della macchinina sia correttamente collegato alla batteria"
+            }
+          ]
+        },
+        {
+          "name": "PULIZIA MACCHININE",
+          "description": "",
+          "blocks": [
+            {
+              "type": "avviso",
+              "color": "giallo",
+              "text": "Ogni fine serata, prima di riportare le macchinine in magazzino devono essere pulite come seguendo tutti i passaggi qui sotto"
+            },
+            {
+              "type": "lista",
+              "text": "Soffiare con il compressore tutte le macchinine da eventuale sabbia/polvere accumulata durante il giorno\nDare un passaggio su tutta la scocca con spugna bagnata da un misto di acqua e una goccia di \"Blue Sheen\""
+            }
+          ]
+        }
+      ],
+      "status": "attiva",
+      "filename": "macchinine.html",
+      "createdAt": 1780595254115,
+      "updatedAt": 1780595254115
+    },
+    {
       "id": "grp_1780246834129_stci5",
       "name": "CHECK GENERALE GIOCHI",
       "icon": "📋",
@@ -53,5 +94,5 @@
       "updatedAt": 1779022354187
     }
   ],
-  "updatedAt": 1780412969744
+  "updatedAt": 1780595256012
 }
