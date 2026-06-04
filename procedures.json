@@ -83,7 +83,7 @@
             },
             {
               "type": "lista",
-              "text": "Portare fuori 4/5 macchinine."
+              "text": "Portare fuori 4/5 macchinine.\nControllare che le batteria siano correttamente collegata all'interno delle macchinine"
             }
           ]
         },
@@ -92,20 +92,40 @@
           "description": "",
           "blocks": [
             {
+              "type": "avviso",
+              "color": "giallo",
+              "text": "Controllare che tutti i giochi si siano correttamente accesi"
+            },
+            {
               "type": "lista",
-              "text": ""
+              "text": "Alzare tutti gli interruttori del quadro principale"
             }
           ]
         },
         {
           "name": "APERTURA SALA DIETRO",
           "description": "",
-          "blocks": []
+          "blocks": [
+            {
+              "type": "avviso",
+              "color": "giallo",
+              "text": "NON SPUNTARE LA TASK FINO A QUANDO NON SI HA COMPLETATO TUTTI I PUNTI SOTTOSTANTI"
+            },
+            {
+              "type": "lista",
+              "text": "Alzare tutti gli interruttori dei due quadri (quello a destra e quello a sinistra)\nAprire tutte e due le porte\nControllare che tutti i giochi si siano accesi correttamente. Se c'è qualche problema su un gioco fare segnalazione tramite l'apposita APP e QR"
+            }
+          ]
         },
         {
           "name": "APERTURA SALA PRINCIPALE",
           "description": "",
-          "blocks": []
+          "blocks": [
+            {
+              "type": "lista",
+              "text": "Alzare tutti gli interruttori del quadro principale\nAlzare interruttore dietro la Slam n Win Xtreme\nAprire tutte le porte"
+            }
+          ]
         },
         {
           "name": "APERTURA SALA SOPRA",
@@ -130,8 +150,8 @@
       "status": "attiva",
       "filename": "apertura-mattina.html",
       "createdAt": 1779003133448,
-      "updatedAt": 1780596749496
+      "updatedAt": 1780597171046
     }
   ],
-  "updatedAt": 1780596751724
+  "updatedAt": 1780597172399
 }
