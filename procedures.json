@@ -11,7 +11,7 @@
           "blocks": [
             {
               "type": "lista",
-              "text": "Svuotare cassetti di fiches\nTirare delicatamente il carrellino dell'hopper facendo molta attenzione a non tirare i cavi di connessione\nRimuovere tutti i gettoni/fiches caduti all'esterno dell'hopper\nFare attenzione che i gettoni e le fiches siano divise correttamente"
+              "text": "Svuotare cassetti di fiches\nTirare delicatamente il carrellino dell'hopper facendo molta attenzione a non tirare i cavi di connessione\nRimuovere tutti i gettoni/fiches caduti all'esterno dell'hopper\nFare attenzione che i gettoni e le fiches siano divise correttamente per colore"
             }
           ]
         },
@@ -29,7 +29,7 @@
       "status": "attiva",
       "filename": "gestione-fiches-e-gettoni-speciali.html",
       "createdAt": 1781009971618,
-      "updatedAt": 1781009971618
+      "updatedAt": 1781010300925
     },
     {
       "id": "grp_1780595508036_xwmq7",
@@ -184,5 +184,5 @@
       "updatedAt": 1780597171046
     }
   ],
-  "updatedAt": 1781009973539
+  "updatedAt": 1781010302643
 }
