@@ -1,6 +1,32 @@
 {
   "groups": [
     {
+      "id": "grp_1781125003334_hcemm",
+      "name": "PELUCHES",
+      "icon": "📋",
+      "sections": [
+        {
+          "name": "POSIZIONAMENTO PELUCHES",
+          "description": "",
+          "blocks": [
+            {
+              "type": "avviso",
+              "color": "giallo",
+              "text": "Se sono finiti i peluches in riserva, prima di spuntare la task scriverlo nelle note."
+            },
+            {
+              "type": "testo",
+              "text": "Ogni postazione di gioco deve avere i peluche ben sparsi sul piano.\nI peluches devono essere, quando possibile, alcuni sdraiati e alcuni in piedi/seduti.\nSe dopo il posizionamento i buchi tra i peluches sono troppo grandi prenderne il necessario dal cassone inferiore della riserva."
+            }
+          ]
+        }
+      ],
+      "status": "attiva",
+      "filename": "peluches.html",
+      "createdAt": 1781125003334,
+      "updatedAt": 1781125003334
+    },
+    {
       "id": "grp_1781009971618_6fsfo",
       "name": "GESTIONE FICHES E GETTONI SPECIALI",
       "icon": "📋",
@@ -214,5 +240,5 @@
       "updatedAt": 1780597171046
     }
   ],
-  "updatedAt": 1781124221672
+  "updatedAt": 1781125004992
 }
