@@ -24,6 +24,10 @@
               "text": "Inserire le fiches negli apposite vaschette dei colori aprendo le vetrine superiori NON GIRARE MANUALMENTE IL CAROSELLO"
             },
             {
+              "type": "testo",
+              "text": "SVUTAGGIO CASSETTI DI SCARTO"
+            },
+            {
               "type": "lista",
               "text": "Aprire porta inferiore\nRimuovere il cassettino di scarto sotto i rulli\nrimuovere tutti i gettoni/fiches/tessere scartate\nDividere gettori/fiches/tessere\nReinserire gettoni/fiches/tessere negli apppositi dispenser"
             }
@@ -32,18 +36,13 @@
         {
           "name": "LAS VEGAS",
           "description": "",
-          "blocks": [
-            {
-              "type": "lista",
-              "text": ""
-            }
-          ]
+          "blocks": []
         }
       ],
       "status": "attiva",
       "filename": "gestione-fiches-e-gettoni-speciali.html",
       "createdAt": 1781009971618,
-      "updatedAt": 1781093448113
+      "updatedAt": 1781094128399
     },
     {
       "id": "grp_1780595508036_xwmq7",
@@ -198,5 +197,5 @@
       "updatedAt": 1780597171046
     }
   ],
-  "updatedAt": 1781093449754
+  "updatedAt": 1781094130004
 }
