@@ -19,12 +19,22 @@
               "text": "Ogni postazione di gioco deve avere i peluche ben sparsi sul piano.\nI peluches devono essere, quando possibile, alcuni sdraiati e alcuni in piedi/seduti.\nSe dopo il posizionamento i buchi tra i peluches sono troppo grandi prenderne il necessario dal cassone inferiore della riserva."
             }
           ]
+        },
+        {
+          "name": "POSIZIONAMENTO PREMI SULLE ROTONDINE",
+          "description": "",
+          "blocks": [
+            {
+              "type": "testo",
+              "text": "Prima di posizionare sui premi fermare il carosello con il pulsante interno alla vetrina  sulla destra. Utilizzare poi il pulsante esterno di gioco per far girare il casorello manualmente.\nI premi devono essere inseriti sulle pinzette in modo sicuro e lasciando sempre una pinzetta libera tra un premio e l'altro.\nSe mancano dei premi prenderli tra quelli posizionati all'ìinterno della vetrina appoggiati"
+            }
+          ]
         }
       ],
       "status": "attiva",
       "filename": "peluches.html",
       "createdAt": 1781125003334,
-      "updatedAt": 1781125003334
+      "updatedAt": 1781125369343
     },
     {
       "id": "grp_1781009971618_6fsfo",
@@ -240,5 +250,5 @@
       "updatedAt": 1780597171046
     }
   ],
-  "updatedAt": 1781125004992
+  "updatedAt": 1781125370497
 }
