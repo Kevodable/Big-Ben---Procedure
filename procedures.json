@@ -36,13 +36,30 @@
         {
           "name": "LAS VEGAS",
           "description": "",
-          "blocks": []
+          "blocks": [
+            {
+              "type": "testo",
+              "text": "RIEMPIRE DISPENSER FICHES"
+            },
+            {
+              "type": "lista",
+              "text": "Aprire la porta superiore della postazione segnata per riempire le vaschette di fiches\nInserire le fiches in modo uniforme in tutte e 4 le vaschette. Le fiches devono sia da 5 che da 10 ben mescolate tra loro."
+            },
+            {
+              "type": "testo",
+              "text": "GESTIONE GETTONI"
+            },
+            {
+              "type": "lista",
+              "text": "Livellare bene i piani di gioco in modo che non rimangano buchi di gettoni facendo attenzione che le fiches presenti rimangano tutte al di sopra dei gettoni.\nRecuperare tutti i gettoni appena fatti cadere dal vano inferiore del gioco\nDividere i gettoni dalle fiches\nRimettere le fiches appena recuperate nelle vaschette dedicata sulla parte superiore del gioco.\nCon i gettoni recuperati preparare delle vaschette in modo che ci sia una vaschetta piena per ogni postazione e riporle all'interno del gioco aprendo gli sportelli superiori."
+            }
+          ]
         }
       ],
       "status": "attiva",
       "filename": "gestione-fiches-e-gettoni-speciali.html",
       "createdAt": 1781009971618,
-      "updatedAt": 1781123571493
+      "updatedAt": 1781124220429
     },
     {
       "id": "grp_1780595508036_xwmq7",
@@ -197,5 +214,5 @@
       "updatedAt": 1780597171046
     }
   ],
-  "updatedAt": 1781123572850
+  "updatedAt": 1781124221672
 }
