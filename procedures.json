@@ -47,7 +47,7 @@
           "blocks": [
             {
               "type": "lista",
-              "text": "Svuotare cassetti di fiches\nTirare delicatamente il carrellino dell'hopper facendo molta attenzione a non tirare i cavi di connessione\nRimuovere tutti i gettoni/fiches caduti all'esterno dell'hopper\nFare attenzione che i gettoni e le fiches siano divise correttamente per colore"
+              "text": "Svuotare cassetti di fiches\nTirare delicatamente il carrellino dell'hopper facendo molta attenzione a non tirare i cavi di connessione\nRimuovere tutti i gettoni/fiches caduti all'esterno dell'hopper\nFare attenzione che i gettoni e le fiches siano divise correttamente per colore\nControllare molto bene che tra i gettoncini in ferro non ci siano altri gettoni diversi. Rischi che si rompa la macchina dove verranno inseriti"
             }
           ]
         },
@@ -87,7 +87,7 @@
             },
             {
               "type": "lista",
-              "text": "Livellare bene i piani di gioco in modo che non rimangano buchi di gettoni facendo attenzione che le fiches presenti rimangano tutte al di sopra dei gettoni.\nRecuperare tutti i gettoni appena fatti cadere dal vano inferiore del gioco\nDividere i gettoni dalle fiches\nRimettere le fiches appena recuperate nelle vaschette dedicata sulla parte superiore del gioco.\nCon i gettoni recuperati preparare delle vaschette in modo che ci sia una vaschetta piena per ogni postazione e riporle all'interno del gioco aprendo gli sportelli superiori."
+              "text": "Recuperare tutti i gettoni dal vano inferiore del gioco\nDividere i gettoni dalle fiches\nRimettere le fiches appena recuperate nelle vaschette dedicata sulla parte superiore del gioco.\nCon i gettoni recuperati preparare delle vaschette in modo che ci sia una vaschetta piena per ogni postazione e riporle all'interno del gioco aprendo gli sportelli superiori."
             }
           ]
         }
@@ -95,7 +95,7 @@
       "status": "attiva",
       "filename": "gestione-fiches-e-gettoni-speciali.html",
       "createdAt": 1781009971618,
-      "updatedAt": 1781124220429
+      "updatedAt": 1781252252213
     },
     {
       "id": "grp_1780595508036_xwmq7",
@@ -250,5 +250,5 @@
       "updatedAt": 1780597171046
     }
   ],
-  "updatedAt": 1781125370497
+  "updatedAt": 1781252254464
 }
