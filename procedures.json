@@ -90,12 +90,26 @@
               "text": "Recuperare tutti i gettoni dal vano inferiore del gioco\nDividere i gettoni dalle fiches\nRimettere le fiches appena recuperate nelle vaschette dedicata sulla parte superiore del gioco.\nCon i gettoni recuperati preparare delle vaschette in modo che ci sia una vaschetta piena per ogni postazione e riporle all'interno del gioco aprendo gli sportelli superiori."
             }
           ]
+        },
+        {
+          "name": "",
+          "description": "",
+          "blocks": [
+            {
+              "type": "passaggio",
+              "text": "dadasd"
+            },
+            {
+              "type": "passaggio",
+              "text": "asdasd"
+            }
+          ]
         }
       ],
-      "status": "attiva",
+      "status": "bozza",
       "filename": "gestione-fiches-e-gettoni-speciali.html",
       "createdAt": 1781009971618,
-      "updatedAt": 1781252252213
+      "updatedAt": 1781804979332
     },
     {
       "id": "grp_1780595508036_xwmq7",
@@ -250,5 +264,5 @@
       "updatedAt": 1780597171046
     }
   ],
-  "updatedAt": 1781252254464
+  "updatedAt": 1781804979680
 }
